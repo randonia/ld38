@@ -1,68 +1,70 @@
-const TILES = [
-  {
-    index: 0,
+const TILES = {
+  0: {
+    tileIndex: 0,
     name: 'grass',
     collide: false
   },
-  {
-    index: 1,
+  1: {
+    tileIndex: 1,
     name: 'store',
     collide: true
   },
-  {
-    index: 2,
+  2: {
+    tileIndex: 2,
     name: 'river-up',
-    collide: true
+    collide: true,
+    spawns: ['salmon', 'yellowtail']
   },
-  {
-    index: 3,
+  3: {
+    tileIndex: 3,
     name: 'river-up-bridge',
-    collide: false
+    collide: false,
+    spawns: ['salmon', 'yellowtail']
   },
-  {
-    index: 4,
+  4: {
+    tileIndex: 4,
     name: 'pond-NW',
     collide: true
   },
-  {
-    index: 5,
+  5: {
+    tileIndex: 5,
     name: 'pond-N',
     collide: true
   },
-  {
-    index: 6,
+  6: {
+    tileIndex: 6,
     name: 'pond-NE',
     collide: true
   },
-  {
-    index: 8,
+  8: {
+    tileIndex: 8,
     name: 'pond-W',
     collide: true
   },
-  {
-    index: 9,
+  9: {
+    tileIndex: 9,
     name: 'pond-C',
     collide: true
   },
-  {
-    index: 10,
+  10: {
+    tileIndex: 10,
     name: 'pond-E',
     collide: true
   },
-  {
-    index: 12,
+  12: {
+    tileIndex: 12,
     name: 'pond-SW',
     collide: true
   },
-  {
-    index: 13,
+  13: {
+    tileIndex: 13,
     name: 'pond-S',
     collide: true
   },
-  {
-    index: 14,
+  14: {
+    tileIndex: 14,
     name: 'pond-SE',
     collide: true
   },
 
-];
+};

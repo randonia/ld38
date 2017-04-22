@@ -4,12 +4,15 @@ const DEFAULT_FONT_COLOR = '#00ff00';
 const DEFAULT_FONT_SIZE = 11;
 // 30 second day timers
 const DEFAULT_DAY_DURATION = 30000;
+
 var player;
-var player2;
 var gameObjects;
 var cursors;
 var map;
 var layer;
+// Tile variables
+var tilesByType;
+var habitats;
 // Uses fsm to handle game looping
 var currFSMState;
 class GameState extends BaseState {
@@ -17,6 +20,7 @@ class GameState extends BaseState {
     game.load.spritesheet('player', 'assets/sprites/player.png', 16, 16, 1);
     game.load.spritesheet('tiles', 'assets/sprites/tiles.png', 32, 32, 16);
     game.load.spritesheet('timer', 'assets/sprites/timer.png', 32, 32, 16);
+    game.load.spritesheet('fish', 'assets/sprites/fish.png', 16, 16, 16);
     game.load.tilemap('map', 'assets/maps/mainmap.csv', null, Phaser.Tilemap.CSV);
   }
   create() {
@@ -35,11 +39,12 @@ class GameState extends BaseState {
     layer = map.createLayer(0);
     layer.resizeWorld();
     layer.debug = true;
-    for (var tIdx = TILES.length - 1; tIdx >= 0; tIdx--) {
+    for (var tIdx in TILES) {
       if (TILES[tIdx].collide) {
-        map.setCollision(TILES[tIdx].index);
+        map.setCollision(TILES[tIdx].tileIndex);
       }
     }
+    this.createFishHabitats();
 
     // Create the player
     player = new Player();
@@ -112,6 +117,22 @@ class GameState extends BaseState {
     openStoreGetPaid.addEdge(dayStartGetOrder, () => false);
 
     return dayStartGetOrder;
+  }
+  createFishHabitats() {
+    tilesByType = {};
+    habitats = [];
+    for (var mapX = 0; mapX < map.width; ++mapX) {
+      for (var mapY = 0; mapY < map.height; ++mapY) {
+        var tile = map.getTile(mapX, mapY, layer);
+        if (!tilesByType[tile.index]) {
+          tilesByType[tile.index] = [];
+        }
+        tilesByType[tile.index].push(tile);
+        if (FishHabitat.tileRequiresHabitat(tile)) {
+          habitats.push(new FishHabitat(tile));
+        }
+      }
+    }
   }
   update() {
     game.physics.arcade.collide(player.sprite, layer);
