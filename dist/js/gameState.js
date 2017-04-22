@@ -9,7 +9,8 @@ var gameObjects;
 var cursors;
 var map;
 var layer;
-
+// Uses fsm to handle game looping
+var currFSMState;
 class GameState extends BaseState {
   preload() {
     game.load.spritesheet('player', 'assets/sprites/player.png', 16, 16, 1);
@@ -42,12 +43,77 @@ class GameState extends BaseState {
     player = new Player();
     gameObjects.push(player);
     game.camera.follow(player.sprite);
+    currFSMState = this.buildStateGraph();
+    currFSMState.enter();
+  }
+  // Builds the entire gameplay loop
+  buildStateGraph() {
+    var dayStartGetOrder = new FSMState('daystart:neworder',
+      () => {},
+      () => {
+        // Create the order window
+        console.log('entering daystart:neworder');
+      },
+      () => {
+        // Kill the order window
+        console.log('exiting daystart:neworder');
+      });
+
+    var dayStartGetSpawnReport = new FSMState('daystart:getspawnreport',
+      () => {},
+      () => {
+        // Create spawn report window
+        console.log('Entering getspawnreport');
+      },
+      () => {
+        // Kill spawn report window
+        console.log('Exiting getspawnreport');
+      });
+
+    var dayPhaseFishing = new FSMState('daystate:fishing',
+      () => {
+        for (var i = gameObjects.length - 1; i >= 0; i--) {
+          gameObjects[i].update();
+        }
+
+      },
+      () => {
+        // Create timer
+        console.log('Entering fishing');
+      },
+      () => {
+        // Kill timer
+        console.log('Exiting fishing');
+      });
+
+    var openStoreConsumeOrders = new FSMState('openstore:consume',
+      () => {},
+      () => {
+        console.log('Entering store consume');
+      },
+      () => {
+        console.log('Exiting store consume');
+      });
+
+    var openStoreGetPaid = new FSMState('openstore:getpaid',
+      () => {},
+      () => {},
+      () => {});
+
+    dayStartGetOrder.addEdge(dayStartGetSpawnReport, () => false);
+    dayStartGetSpawnReport.addEdge(dayPhaseFishing, () => false);
+    dayPhaseFishing.addEdge(openStoreConsumeOrders, () => false);
+    openStoreConsumeOrders.addEdge(openStoreGetPaid, () => false);
+    openStoreGetPaid.addEdge(dayStartGetOrder, () => false);
+
+    return dayStartGetOrder;
   }
   update() {
     game.physics.arcade.collide(player.sprite, layer);
-    for (var i = gameObjects.length - 1; i >= 0; i--) {
-      gameObjects[i].update();
+    if (currFSMState) {
+      currFSMState = currFSMState.update()
     }
+    drawText(0, 10, sprintf('Current State: %s', currFSMState.id));
   }
   render() {
     game.debug.quadTree(game.physics.arcade.quadTree);
