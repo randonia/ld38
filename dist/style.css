@@ -1,3 +1,29 @@
+/*
+font-family: 'UnifrakturCook', cursive;
+font-family: 'Indie Flower', cursive;
+*/
+
 * {
   box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(20, 20, 20);
+  color: rgb(127, 127, 127);
+  font-family: 'Indie Flower', cursive;
+  margin: 0px;
+  padding: 0px;
+}
+
+h1 {
+  text-align: center;
+  color: #0095ff;
+  text-shadow: 1px 1px 2px black;
+}
+
+.game-container {
+  height: 600px;
+  margin: 0px auto;
+  outline: 1px solid #0095ff;
+  width: 800px;
 }
