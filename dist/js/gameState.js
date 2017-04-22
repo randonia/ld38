@@ -2,7 +2,8 @@ const DEFAULT_FONT = 'Courier New';
 const DEFAULT_FONT_ALIGN = 'start';
 const DEFAULT_FONT_COLOR = '#00ff00';
 const DEFAULT_FONT_SIZE = 11;
-
+// 30 second day timers
+const DEFAULT_DAY_DURATION = 30000;
 var player;
 var player2;
 var gameObjects;
@@ -15,6 +16,7 @@ class GameState extends BaseState {
   preload() {
     game.load.spritesheet('player', 'assets/sprites/player.png', 16, 16, 1);
     game.load.spritesheet('tiles', 'assets/sprites/tiles.png', 32, 32, 16);
+    game.load.spritesheet('timer', 'assets/sprites/timer.png', 32, 32, 16);
     game.load.tilemap('map', 'assets/maps/mainmap.csv', null, Phaser.Tilemap.CSV);
   }
   create() {
@@ -71,17 +73,18 @@ class GameState extends BaseState {
       });
 
     var dayPhaseFishing = new FSMState('daystate:fishing',
-      () => {
+      function() {
         for (var i = gameObjects.length - 1; i >= 0; i--) {
           gameObjects[i].update();
         }
-
+        this.completed = this.clock.update();
       },
-      () => {
+      // Because we reference 'this', we need to use an anonymous function instead of a lambda
+      function() {
         // Create timer
-        console.log('Entering fishing');
+        this.clock = new Timer(DEFAULT_DAY_DURATION);
       },
-      () => {
+      function() {
         // Kill timer
         console.log('Exiting fishing');
       });
@@ -100,9 +103,11 @@ class GameState extends BaseState {
       () => {},
       () => {});
 
-    dayStartGetOrder.addEdge(dayStartGetSpawnReport, () => false);
-    dayStartGetSpawnReport.addEdge(dayPhaseFishing, () => false);
-    dayPhaseFishing.addEdge(openStoreConsumeOrders, () => false);
+    dayStartGetOrder.addEdge(dayStartGetSpawnReport, () => true);
+    dayStartGetSpawnReport.addEdge(dayPhaseFishing, () => true);
+    dayPhaseFishing.addEdge(openStoreConsumeOrders, function() {
+      return dayPhaseFishing.completed;
+    });
     openStoreConsumeOrders.addEdge(openStoreGetPaid, () => false);
     openStoreGetPaid.addEdge(dayStartGetOrder, () => false);
 
