@@ -13,6 +13,7 @@ var layer;
 // Tile variables
 var tilesByType;
 var habitats;
+var habitatsGroup;
 // Uses fsm to handle game looping
 var currFSMState;
 class GameState extends BaseState {
@@ -121,6 +122,7 @@ class GameState extends BaseState {
   createFishHabitats() {
     tilesByType = {};
     habitats = [];
+    habitatsGroup = game.add.group();
     for (var mapX = 0; mapX < map.width; ++mapX) {
       for (var mapY = 0; mapY < map.height; ++mapY) {
         var tile = map.getTile(mapX, mapY, layer);
@@ -129,13 +131,16 @@ class GameState extends BaseState {
         }
         tilesByType[tile.index].push(tile);
         if (FishHabitat.tileRequiresHabitat(tile)) {
-          habitats.push(new FishHabitat(tile));
+          var newHabitat = new FishHabitat(tile)
+          habitats.push(newHabitat);
+          habitatsGroup.add(newHabitat.sprite);
         }
       }
     }
   }
   update() {
     game.physics.arcade.collide(player.sprite, layer);
+    game.physics.arcade.collide(player.sprite, habitatsGroup);
     if (currFSMState) {
       currFSMState = currFSMState.update()
     }
@@ -144,6 +149,9 @@ class GameState extends BaseState {
   render() {
     game.debug.quadTree(game.physics.arcade.quadTree);
     game.debug.body(player.sprite);
+    for (var hIdx = habitats.length - 1; hIdx >= 0; hIdx--) {
+      game.debug.body(habitats[hIdx].sprite);
+    }
   }
 }
 

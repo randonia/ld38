@@ -33,7 +33,6 @@ class Player {
       x: 0,
       y: 0,
     }
-
     if (this.directions[DIR_UP]) {
       dir.y -= 1;
     }

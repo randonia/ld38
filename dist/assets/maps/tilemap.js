@@ -19,52 +19,60 @@ const TILES = {
     tileIndex: 3,
     name: 'river-up-bridge',
     collide: false,
-    spawns: ['salmon', 'yellowtail']
   },
   4: {
     tileIndex: 4,
     name: 'pond-NW',
-    collide: true
+    collide: true,
+    spawns: ['tuna']
   },
   5: {
     tileIndex: 5,
     name: 'pond-N',
-    collide: true
+    collide: true,
+    spawns: ['tuna']
   },
   6: {
     tileIndex: 6,
     name: 'pond-NE',
-    collide: true
+    collide: true,
+    spawns: ['tuna']
   },
   8: {
     tileIndex: 8,
     name: 'pond-W',
-    collide: true
+    collide: true,
+    spawns: ['tuna']
   },
   9: {
     tileIndex: 9,
     name: 'pond-C',
-    collide: true
+    collide: true,
+    spawns: ['tuna']
   },
   10: {
     tileIndex: 10,
     name: 'pond-E',
-    collide: true
+    collide: true,
+    spawns: ['tuna']
   },
   12: {
     tileIndex: 12,
     name: 'pond-SW',
-    collide: true
+    collide: true,
+    spawns: ['tuna']
   },
   13: {
     tileIndex: 13,
     name: 'pond-S',
-    collide: true
+    collide: true,
+    spawns: ['tuna']
   },
   14: {
     tileIndex: 14,
     name: 'pond-SE',
-    collide: true
+    collide: true,
+    spawns: ['tuna']
   },
 
 };

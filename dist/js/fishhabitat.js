@@ -11,12 +11,12 @@ class FishHabitat {
     this.tile = tile;
     this.group = game.add.group();
     this.init();
+    this.initPhysics();
   }
   init() {
     this.pool = {};
     var spawnData = TILES[this.tile.index].spawns;
     if (spawnData) {
-      console.log(spawnData);
       for (var sIdx = spawnData.length - 1; sIdx >= 0; sIdx--) {
         var type = spawnData[sIdx];
         var newSprite = undefined;
@@ -39,5 +39,15 @@ class FishHabitat {
     }
     this.group.position.set(this.tile.worldX, this.tile.worldY);
     this.group.align(1, 3, 8, 8, Phaser.LEFT)
+  }
+  initPhysics() {
+    var shape = game.add.graphics();
+    shape.moveTo(0, 0);
+    shape.lineTo(this.tile.width, this.tile.height);
+    shape.boundsPadding = 0;
+    this.sprite = game.add.sprite(this.group.position.x, this.group.position.y);
+    this.sprite.addChild(shape);
+    game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
+    this.sprite.body.immovable = true;
   }
 }
