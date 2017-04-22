@@ -1,0 +1,837 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"for",
+				"for\tfor (…) {…} (Improved Native For-Loop)"
+			],
+			[
+				"scann",
+				"scannedTargets"
+			],
+			[
+				"MODE",
+				"MODE_MSG"
+			],
+			[
+				"FILH",
+				"FIL_LIST_HEADER2_PADDING_Y"
+			],
+			[
+				"FILLISTST",
+				"FIL_LIST_TO_START_Y"
+			],
+			[
+				"FILST",
+				"FIL_LIST_START_Y"
+			],
+			[
+				"FILLISTY",
+				"FIL_LIST_START_Y"
+			],
+			[
+				"textal",
+				"text-align"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 107.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"addf",
+				"Project: Add Folder"
+			],
+			[
+				"status",
+				"Git: Status"
+			],
+			[
+				"des",
+				"Origami: Destroy Current Pane"
+			],
+			[
+				"text",
+				"Set Syntax: Plain Text"
+			],
+			[
+				"wrap",
+				"Word Wrap: Toggle"
+			],
+			[
+				"plain",
+				"Set Syntax: Plain Text"
+			],
+			[
+				"gitgudf",
+				"GitGutter: Show Diff Popup"
+			],
+			[
+				"gitgutter",
+				"GitGutter: Show Diff Popup"
+			],
+			[
+				"gitgut",
+				"GitGutter: Compare Against Branch"
+			],
+			[
+				"diff",
+				"Git: Diff"
+			],
+			[
+				"stat",
+				"Git: Status"
+			],
+			[
+				"stats",
+				"Git: Status"
+			],
+			[
+				"uniq",
+				"Permute Lines: Unique"
+			],
+			[
+				"unique",
+				"Permute Lines: Unique"
+			],
+			[
+				"sort",
+				"Sort Lines"
+			],
+			[
+				"stauts",
+				"Git: Status"
+			],
+			[
+				"json",
+				"Set Syntax: JSON"
+			],
+			[
+				"prefer",
+				"Preferences: Settings"
+			],
+			[
+				"spaces",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"javas",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"destroy",
+				"Origami: Destroy Current Pane"
+			],
+			[
+				"git push",
+				"Git: Push"
+			],
+			[
+				"gitstatus",
+				"Git: Status"
+			],
+			[
+				"pref",
+				"Preferences: Settings – Syntax Specific"
+			],
+			[
+				"install",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"prefere",
+				"Preferences: Settings"
+			],
+			[
+				"editpro",
+				"Project: Edit Project"
+			],
+			[
+				"git status",
+				"Git: Status"
+			],
+			[
+				"gitk",
+				"Gitk"
+			],
+			[
+				"git diff",
+				"Git: Diff"
+			],
+			[
+				"space",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"advance",
+				"Package Control: Advanced Install Package"
+			],
+			[
+				"syntac#",
+				"Set Syntax: C#"
+			],
+			[
+				"key",
+				"Preferences: Key Bindings"
+			],
+			[
+				"html",
+				"Set Syntax: HTML"
+			],
+			[
+				"C#",
+				"Set Syntax: C#"
+			],
+			[
+				"syntax ruby",
+				"Set Syntax: Ruby"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"php",
+				"Set Syntax: PHP"
+			],
+			[
+				"c#",
+				"Set Syntax: C#"
+			]
+		],
+		"width": 496.0
+	},
+	"console":
+	{
+		"height": 311.0,
+		"history":
+		[
+			"print('hi')",
+			"print 'hi'",
+			"import os;os.getenv('PATH')"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/Ryan Andonian/Documents/Javascript/ld38"
+	],
+	"file_history":
+	[
+		"/C/Users/Ryan Andonian/AppData/Roaming/PlaysTV/playstv.log",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/scripts/commandWindow.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/scripts/command.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/scripts/menuState.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/scripts/game.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/scripts/gameState.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/scripts/loseState.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/scripts/winState.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/README.md",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/scripts/logWindow.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/scripts/filterWindow.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/scripts/baseWindow.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/scripts/mapWindow.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/scripts/person.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/assets/audio/credits.txt",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/scripts/path.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/index.html",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/scripts/police.js",
+		"/C/Users/Ryan Andonian/AppData/Roaming/Sublime Text 3/Packages/User/CodeFormatter.sublime-settings",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/screenshots/typing_commands.avi",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/scripts/node.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/scripts/utils.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/data/name_data.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/data/first_names_final.json",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/data/last_names_final.json",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/styles/style.css",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/assets/sprites/nodes.json",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/scripts/blinker.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/dist/scripts/libs/sprintf.min.js.map",
+		"/C/Users/Ryan Andonian/AppData/Roaming/Sublime Text 3/Packages/CodeFormatter/CodeFormatter.sublime-settings",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/.gitignore",
+		"/C/Users/Ryan Andonian/Documents/Javascript/resistjam2017/resistjam.sublime-project",
+		"/C/Users/Ryan Andonian/AppData/Roaming/Sublime Text 3/Packages/SublimeGit/SublimeGit.sublime-settings",
+		"/C/Users/Ryan Andonian/AppData/Roaming/Sublime Text 3/Packages/GitGutter/GitGutter.sublime-settings",
+		"/C/Users/Ryan Andonian/AppData/Roaming/Sublime Text 3/Packages/User/GitGutter.sublime-settings",
+		"/C/Users/Ryan Andonian/Documents/Javascript/Phaser/hello_world/phaser.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/Phaser/hello_world/game.js",
+		"/C/Users/Ryan Andonian/Documents/Javascript/Phaser/hello_world/index.html",
+		"/C/Users/Ryan Andonian/Documents/Ruby/simple_plays_client/probe.rb",
+		"/C/Users/Ryan Andonian/AppData/Roaming/PlaysTV/baseurl.txt",
+		"/C/Users/Ryan Andonian/Downloads/memtest86-usb/readme.txt",
+		"/C/Users/Ryan Andonian/AppData/Roaming/PlaysTV/Overwatch_x_UDP.log",
+		"/B/PlaysTV/RimWorld/.meta.txt",
+		"/C/Users/Ryan Andonian/Desktop/playstv.log",
+		"/C/Users/Ryan Andonian/Documents/Unity/ggj2017/Builds/Release1.0.1/WebGL/index.html",
+		"/C/Users/Ryan Andonian/Dropbox/Computer Stuff/ssh_config.txt",
+		"/C/Users/Ryan Andonian/Documents/Unity/ggj2017/ggj2017/Assets/Scenes/sandbox.unity",
+		"/C/Users/Ryan Andonian/Documents/Unity/ggj2017/.gitignore",
+		"/C/Users/Ryan Andonian/Documents/results.json",
+		"/C/Users/Ryan Andonian/Dropbox/Game Saves/StardewValley/makebackup.sh",
+		"/C/Users/Ryan Andonian/Downloads/spotify_json/results_vincenzospur-7x0XmbRSWq7BlfdPXEfQWX.json",
+		"/C/Users/Ryan Andonian/Downloads/spotify_json/results_1264670465-4lcQpg4lMfqTLAYfo6MSYU.json",
+		"/C/Users/Ryan Andonian/AppData/Local/Temp/{676D11AB-BDEB-4453-A883-F23964D21DAF}/{BADFBF1D-8604-458E-8231-E3D9E77D93D4}",
+		"/F/.__sam_var.txt",
+		"/C/Users/Ryan Andonian/Downloads/AmadeoRestaurantApp/server.php",
+		"/C/Users/Ryan Andonian/Downloads/AmadeoRestaurantApp/app/app.js",
+		"/C/Users/Ryan Andonian/Downloads/AmadeoRestaurantApp/scripts/angular/angular.js",
+		"/C/Users/Ryan Andonian/Downloads/AmadeoRestaurantApp/readme.txt",
+		"/C/Users/Ryan Andonian/AppData/Roaming/StardewValley/Saves/FlintHardpeck_126425263/SaveGameInfo",
+		"/C/Users/Ryan Andonian/Dropbox/Game Saves/StardewValley/pywatcher.py",
+		"/C/Users/Ryan Andonian/Dropbox/Computer Stuff/2fa/vlv_stm_12_07_16.2fa",
+		"/C/Users/Ryan Andonian/Dropbox/Computer Stuff/2fa/db_09_26_16.2fa",
+		"/C/Users/Ryan Andonian/Dropbox/Computer Stuff/2fa/slk_09_26_16.2fa",
+		"/C/Users/Ryan Andonian/Dropbox/Computer Stuff/2fa/gh_09_26_16.2fa",
+		"/C/Users/Ryan Andonian/Dropbox/Computer Stuff/2fa/g_09_26_16.2fa",
+		"/C/Users/Ryan Andonian/Downloads/DbC/www/det.json",
+		"/C/Users/Ryan Andonian/Downloads/DbC/www/save/config.rpgsave",
+		"/C/Users/Ryan Andonian/Downloads/DbC/www/data/Map002.json",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/api/discovery.cfg",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/cohort.dat",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/disable_tracking.dat",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/game_detection_pc.json",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/gamemeta.sqlite",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/game_detection_web.json",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/identities_cache.json",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/installed_games2.dat",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/manual_basedir.dat",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/lol_friends.json",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/manual_detectdir.dat",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/overwatch_assets.json",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/overwatch_instructions.json",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/videometa.sqlite",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/auto_detect.dat",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/blacklist.json",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/game_info/lol_match_info.json",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/ryanandonian/videos.dat",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/ryanandonian/windowstates.dat",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/ryanandonian/screenshots.dat",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/ryanandonian/display_names.dat",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/data/Zambini/display_names.dat",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/ltc/[game] csgo.exe.log",
+		"/C/Users/Ryan Andonian/Desktop/PlaysTV/playstv.log",
+		"/C/Users/Ryan Andonian/Documents/Unity/ld37/README.md",
+		"/C/Users/Ryan Andonian/Documents/Unity/ld37/.gitignore",
+		"/C/cygwin64/home/Ryan Andonian/.ssh/id_github.pub",
+		"/C/cygwin64/home/Ryan Andonian/.ssh/id_hetzer.pub",
+		"/C/Users/Ryan Andonian/Videos/PlaysTV/Overwatch/2016_12_01_22_24_10-ses.framelets",
+		"/C/Users/Ryan Andonian/Dropbox/3ds.txt",
+		"/C/Users/Ryan Andonian/AppData/Roaming/PlaysTV/data/game_info/lol_match_info.json",
+		"/C/Users/Ryan Andonian/Desktop/light_log.txt"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 100.0,
+		"where_history":
+		[
+			"",
+			"C:\\Users\\Ryan Andonian\\Documents\\Javascript\\resistjam2017\\dist\\assets\\images"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"2017/04/09",
+			"2017/04/08",
+			"2017/04/07",
+			"Facebook",
+			"facebook",
+			"'text'",
+			"'text': ",
+			"'click1'",
+			"tick1",
+			"spritesheet",
+			"80",
+			"cmdHistory",
+			"Up",
+			"keyPageDown",
+			"//",
+			"ID - The numeric ID",
+			"commands",
+			"$ ",
+			"***",
+			"suspects",
+			"Things",
+			"createHistory",
+			"gameObjects",
+			"%s",
+			"sprintf",
+			"filterHeader",
+			"game",
+			"end",
+			"%s",
+			"NUM_NODES",
+			"mapWindow",
+			"< 2",
+			"Math.abs",
+			"mapWindow.isSuspect",
+			"Math.abs",
+			">",
+			"delay",
+			"duration",
+			"console.log",
+			"\\n ",
+			"\\n",
+			"delay",
+			"duration",
+			"(\"\">",
+			"text",
+			"duration",
+			"2500",
+			"this.gameStart",
+			"4",
+			"blockList",
+			"DBGWINDOW",
+			" * TURBODEBUG",
+			"TURBODEBUG",
+			"turbo",
+			"this.userInput = '';",
+			"'delay'",
+			"2500",
+			"\"",
+			"Blinker",
+			" ",
+			"%20",
+			" ",
+			"$",
+			"\\n ",
+			"fontCFG",
+			"nameLabel",
+			"GAME_TITLE",
+			" ",
+			"WIN_",
+			"red",
+			"100",
+			"255",
+			"this.name",
+			"*",
+			"-",
+			"        ",
+			"==",
+			"[i",
+			"i",
+			"I",
+			"i",
+			".msg(",
+			"target",
+			"person.",
+			"setFilterStatusByGameObjectId",
+			"scannedTargets",
+			"success",
+			"console.log",
+			"cons",
+			"console.log",
+			"gameObjects[randIdx]",
+			"person",
+			"filterId",
+			"125",
+			"name",
+			"logWindow.",
+			"+ halfSize",
+			".y",
+			".x",
+			"[",
+			"filter_id",
+			"filters",
+			"numerical",
+			"selectTarget",
+			"filter",
+			"filtersLastY",
+			"FIL_LIST_START_Y",
+			".set",
+			"set",
+			"node",
+			"console.log",
+			"this.headerBmp",
+			"bmp",
+			"console",
+			"bmd",
+			"FIL_ITEMS_STARTING_Y",
+			"4",
+			"FIL_LIST_PADDING_Y",
+			"50",
+			"Callback",
+			"FIL_LIST_ITEM_STARTING_Y",
+			"FIL_LIST_START_Y",
+			"FIL_LIST_TITLE_Y",
+			"FIL_LIST_START_X",
+			"FIL_LIST_START_Y",
+			"sprite",
+			"nodeSprites",
+			"nodeImage"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git-commit":
+	{
+		"height": 100.0
+	},
+	"output.git-push":
+	{
+		"height": 122.0
+	},
+	"pinned_build_system": "",
+	"project": "ld38.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"commandwin",
+				"dist\\scripts\\commandWindow.js"
+			],
+			[
+				"readm",
+				"README.md"
+			],
+			[
+				"winsta",
+				"dist\\scripts\\winState.js"
+			],
+			[
+				"losest",
+				"dist\\scripts\\loseState.js"
+			],
+			[
+				"menust",
+				"dist\\scripts\\menuState.js"
+			],
+			[
+				"cmdwi",
+				"dist\\scripts\\commandWindow.js"
+			],
+			[
+				"gamest",
+				"dist\\scripts\\gameState.js"
+			],
+			[
+				"readme",
+				"README.md"
+			],
+			[
+				"filter",
+				"dist\\scripts\\filterWindow.js"
+			],
+			[
+				"basewin",
+				"dist\\scripts\\baseWindow.js"
+			],
+			[
+				"command",
+				"dist\\scripts\\command.js"
+			],
+			[
+				"path",
+				"dist\\scripts\\path.js"
+			],
+			[
+				"gamesta",
+				"dist\\scripts\\gameState.js"
+			],
+			[
+				"game.j",
+				"dist\\scripts\\game.js"
+			],
+			[
+				"mapwin",
+				"dist\\scripts\\mapWindow.js"
+			],
+			[
+				"game",
+				"dist\\scripts\\gameState.js"
+			],
+			[
+				"read",
+				"README.md"
+			],
+			[
+				"map",
+				"dist\\scripts\\mapWindow.js"
+			],
+			[
+				"men",
+				"dist\\scripts\\menuState.js"
+			],
+			[
+				"person",
+				"dist\\scripts\\person.js"
+			],
+			[
+				"inde",
+				"dist\\index.html"
+			],
+			[
+				"menus",
+				"dist\\scripts\\menuState.js"
+			],
+			[
+				"police",
+				"dist\\scripts\\police.js"
+			],
+			[
+				"game.js",
+				"dist\\scripts\\game.js"
+			],
+			[
+				"index",
+				"dist\\index.html"
+			],
+			[
+				"menu",
+				"dist\\scripts\\menuState.js"
+			],
+			[
+				"inbo",
+				"dist\\scripts\\baseWindow.js"
+			],
+			[
+				"ind",
+				"dist\\index.html"
+			],
+			[
+				"game.",
+				"dist\\scripts\\game.js"
+			],
+			[
+				"mapwi",
+				"dist\\scripts\\mapWindow.js"
+			],
+			[
+				"mai",
+				"dist\\scripts\\mapWindow.js"
+			],
+			[
+				"comman",
+				"dist\\scripts\\command.js"
+			],
+			[
+				"commands",
+				"screenshots\\typing_commands.avi"
+			],
+			[
+				"filterw",
+				"dist\\scripts\\filterWindow.js"
+			],
+			[
+				"logwin",
+				"dist\\scripts\\logWindow.js"
+			],
+			[
+				"basewi",
+				"dist\\scripts\\baseWindow.js"
+			],
+			[
+				"games",
+				"dist\\scripts\\gameState.js"
+			],
+			[
+				"filterwi",
+				"dist\\scripts\\filterWindow.js"
+			],
+			[
+				"comma",
+				"dist\\scripts\\command.js"
+			],
+			[
+				"filterwin",
+				"dist\\scripts\\filterWindow.js"
+			],
+			[
+				"gamestae",
+				"dist\\scripts\\gameState.js"
+			],
+			[
+				"uti",
+				"dist\\scripts\\utils.js"
+			],
+			[
+				"gamestate",
+				"dist\\scripts\\gameState.js"
+			],
+			[
+				"window",
+				"dist\\scripts\\logWindow.js"
+			],
+			[
+				"node",
+				"dist\\scripts\\node.js"
+			],
+			[
+				"style",
+				"dist\\styles\\style.css"
+			],
+			[
+				"styel",
+				"dist\\styles\\style.css"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 82.0,
+		"last_filter": "resetfi",
+		"selected_items":
+		[
+			[
+				"resetfi",
+				"resetFilter"
+			],
+			[
+				"track",
+				"setTracked"
+			],
+			[
+				"filtercmd",
+				"processFilterCmd"
+			],
+			[
+				"cmd",
+				"execCmdScan"
+			],
+			[
+				"execsm",
+				"execCmdScan"
+			],
+			[
+				"drawtext",
+				"drawText"
+			],
+			[
+				"addtopath",
+				"addToPath"
+			],
+			[
+				"people",
+				"generatePeople"
+			],
+			[
+				"processfil",
+				"processFilterCmd"
+			],
+			[
+				"drawtex",
+				"drawText"
+			],
+			[
+				"execfilter",
+				"execFilter"
+			],
+			[
+				"debug",
+				"debug"
+			]
+		],
+		"width": 360.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 207.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
