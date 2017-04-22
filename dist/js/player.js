@@ -3,6 +3,7 @@ const DIR_UP = 8;
 const DIR_DOWN = 2;
 const DIR_LEFT = 4;
 const DIR_RIGHT = 6;
+const CURR_TILE = 5;
 
 class Player {
   get X() {
@@ -57,15 +58,17 @@ class Player {
     var tileX = layer.getTileX(this.X);
     var tileY = layer.getTileY(this.Y);
     var tiles = {
-      left: map.getTileLeft(0, tileX, tileY),
-      right: map.getTileRight(0, tileX, tileY),
-      above: map.getTileAbove(0, tileX, tileY),
-      below: map.getTileBelow(0, tileX, tileY),
+      DIR_LEFT: map.getTileLeft(0, tileX, tileY),
+      DIR_RIGHT: map.getTileRight(0, tileX, tileY),
+      DIR_UP: map.getTileAbove(0, tileX, tileY),
+      DIR_DOWN: map.getTileBelow(0, tileX, tileY),
+      CURR_TILE: map.getTile(tileX, tileY, 0)
     }
-    var l = (tiles.left) ? tiles.left.index : -1;
-    var r = (tiles.right) ? tiles.right.index : -1;
-    var a = (tiles.above) ? tiles.above.index : -1;
-    var b = (tiles.below) ? tiles.below.index : -1;
-    drawText(0, HEIGHT - 10, sprintf('L: %s R: %s U: %s D: %s', l, r, a, b));
+    var l = (tiles.DIR_LEFT) ? tiles.DIR_LEFT.index : -1;
+    var r = (tiles.DIR_RIGHT) ? tiles.DIR_RIGHT.index : -1;
+    var a = (tiles.DIR_UP) ? tiles.DIR_UP.index : -1;
+    var b = (tiles.DIR_DOWN) ? tiles.DIR_DOWN.index : -1;
+    var c = (tiles.CURR_TILE) ? tiles.CURR_TILE.index : -1;
+    drawText(0, HEIGHT - 10, sprintf('L: %s R: %s U: %s D: %s C: %s', l, r, a, b, c));
   }
 }
