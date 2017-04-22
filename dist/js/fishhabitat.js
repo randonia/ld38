@@ -2,21 +2,26 @@ const FISH_TYPE_1 = 'salmon';
 const FISH_TYPE_2 = 'yellowtail';
 const FISH_TYPE_3 = 'tuna';
 
-// A data representation of a tile's fish
+// A data representation of a tile group's fish
 class FishHabitat {
-  static tileRequiresHabitat(tile) {
-    return TILES[tile.index].spawns != undefined;
-  }
-  constructor(tile) {
-    this.tile = tile;
+  constructor(tiles) {
+    this.tiles = tiles;
     this.group = game.add.group();
     this.init();
-    this.initPhysics();
   }
   init() {
     this.pool = {};
-    var spawnData = TILES[this.tile.index].spawns;
-    if (spawnData) {
+    // Get the spawn data based on all the tiles
+    var spawnData = [];
+    for (var tileIdx = 0; tileIdx < this.tiles.length; tileIdx++) {
+      var currTile = this.tiles[tileIdx];
+      var tileSpawnData = TILES[currTile.index].spawns;
+      if (tileSpawnData) {
+        spawnData = spawnData.concat(tileSpawnData).filter((value, index, self) => self.indexOf(value) === index);
+        currTile.habitat = this;
+      }
+    }
+    if (spawnData.length > 0) {
       for (var sIdx = spawnData.length - 1; sIdx >= 0; sIdx--) {
         var type = spawnData[sIdx];
         var newSprite = undefined;
@@ -37,17 +42,10 @@ class FishHabitat {
         }
       }
     }
-    this.group.position.set(this.tile.worldX, this.tile.worldY);
-    this.group.align(1, 3, 8, 8, Phaser.LEFT)
+    this.groupCentroid = Phaser.Point.centroid(this.tiles.map((tile) => new Phaser.Point(tile.worldX + tile.centerX, tile.worldY + tile.centerY)));
+    this.group.position.set(this.groupCentroid.x, this.groupCentroid.y);
+    this.group.align(1, -1, 16, 16, Phaser.CENTER);
+    this.group.pivot.set(8, 8);
   }
-  initPhysics() {
-    var shape = game.add.graphics();
-    shape.moveTo(0, 0);
-    shape.lineTo(this.tile.width, this.tile.height);
-    shape.boundsPadding = 0;
-    this.sprite = game.add.sprite(this.group.position.x, this.group.position.y);
-    this.sprite.addChild(shape);
-    game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
-    this.sprite.body.immovable = true;
-  }
+
 }

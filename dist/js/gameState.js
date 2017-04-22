@@ -10,8 +10,7 @@ var gameObjects;
 var cursors;
 var map;
 var layer;
-// Tile variables
-var tilesByType;
+// Habitat/Tile variables
 var habitats;
 var habitatsGroup;
 // Uses fsm to handle game looping
@@ -23,6 +22,7 @@ class GameState extends BaseState {
     game.load.spritesheet('timer', 'assets/sprites/timer.png', 32, 32, 16);
     game.load.spritesheet('fish', 'assets/sprites/fish.png', 16, 16, 16);
     game.load.tilemap('map', 'assets/maps/mainmap.csv', null, Phaser.Tilemap.CSV);
+    game.load.text('habitat_clusters', 'assets/maps/habitat_clusters.csv');
   }
   create() {
     gameObjects = [];
@@ -120,27 +120,44 @@ class GameState extends BaseState {
     return dayStartGetOrder;
   }
   createFishHabitats() {
-    tilesByType = {};
     habitats = [];
-    habitatsGroup = game.add.group();
-    for (var mapX = 0; mapX < map.width; ++mapX) {
-      for (var mapY = 0; mapY < map.height; ++mapY) {
-        var tile = map.getTile(mapX, mapY, layer);
-        if (!tilesByType[tile.index]) {
-          tilesByType[tile.index] = [];
-        }
-        tilesByType[tile.index].push(tile);
-        if (FishHabitat.tileRequiresHabitat(tile)) {
-          var newHabitat = new FishHabitat(tile)
-          habitats.push(newHabitat);
-          habitatsGroup.add(newHabitat.sprite);
+    // Map each group of habitats into groups based on the habitat_clusters
+    var habitatClusterKeys = {};
+    var habitatClustersCSV = game.cache.getText('habitat_clusters');
+    var habitatClustersArray = habitatClustersCSV.split('\n');
+    for (var hCAY = 0; hCAY < habitatClustersArray.length; ++hCAY) {
+      var habitatClustersLine = habitatClustersArray[hCAY].split(',').map((item) => item.trim());
+      if (habitatClustersLine.length <= 1) continue;
+      for (var hCAX = 0; hCAX < habitatClustersLine.length; hCAX++) {
+        var groupId = habitatClustersLine[hCAX];
+        if (groupId !== '_') {
+          if (!habitatClusterKeys[groupId]) habitatClusterKeys[groupId] = [];
+          habitatClusterKeys[groupId].push({
+            x: hCAX,
+            y: hCAY
+          });
         }
       }
+    }
+    habitatsGroup = game.add.group();
+    for (var habitatGroupKey in habitatClusterKeys) {
+      var clusterTileIdxs = habitatClusterKeys[habitatGroupKey];
+      var tilesInGroup = [];
+      for (var i = 0; i < clusterTileIdxs.length; i++) {
+        var tilePosition = clusterTileIdxs[i]
+        tilesInGroup.push(map.getTile(tilePosition.x, tilePosition.y));
+      }
+      var newHabitat = new FishHabitat(tilesInGroup);
+      habitats.push(newHabitat);
+      habitatsGroup.add(newHabitat.group);
     }
   }
   update() {
     game.physics.arcade.collide(player.sprite, layer);
-    game.physics.arcade.collide(player.sprite, habitatsGroup);
+    for (var habIdx = 0; habIdx < habitats.length; habIdx++) {
+      game.physics.arcade.collide(player.sprite, habitats[habIdx].sprite);
+    }
+    // game.physics.arcade.collide(player.sprite, habitatsGroup);
     if (currFSMState) {
       currFSMState = currFSMState.update()
     }
@@ -149,9 +166,7 @@ class GameState extends BaseState {
   render() {
     game.debug.quadTree(game.physics.arcade.quadTree);
     game.debug.body(player.sprite);
-    for (var hIdx = habitats.length - 1; hIdx >= 0; hIdx--) {
-      game.debug.body(habitats[hIdx].sprite);
-    }
+
   }
 }
 

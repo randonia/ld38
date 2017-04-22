@@ -64,10 +64,16 @@ class Player {
       CURR_TILE: map.getTile(tileX, tileY, 0)
     }
     var l = (tiles.DIR_LEFT) ? tiles.DIR_LEFT.index : -1;
+    var lH = (tiles.DIR_LEFT) ? tiles.DIR_LEFT.habitat : -1;
     var r = (tiles.DIR_RIGHT) ? tiles.DIR_RIGHT.index : -1;
+    var rH = (tiles.DIR_RIGHT) ? tiles.DIR_RIGHT.habitat : -1;
     var a = (tiles.DIR_UP) ? tiles.DIR_UP.index : -1;
+    var aH = (tiles.DIR_UP) ? tiles.DIR_UP.habitat : -1;
     var b = (tiles.DIR_DOWN) ? tiles.DIR_DOWN.index : -1;
+    var bH = (tiles.DIR_DOWN) ? tiles.DIR_DOWN.habitat : -1;
     var c = (tiles.CURR_TILE) ? tiles.CURR_TILE.index : -1;
+    var cH = (tiles.CURR_TILE) ? tiles.CURR_TILE.habitat : -1;
     drawText(0, HEIGHT - 10, sprintf('L: %s R: %s U: %s D: %s C: %s', l, r, a, b, c));
+    drawText(0, HEIGHT, sprintf('L: %s R: %s U: %s D: %s', lH, rH, aH, bH));
   }
 }
