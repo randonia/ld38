@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/randonia/ld38.png?label=ready&title=Ready)](https://waffle.io/randonia/ld38)
 # Ludum Dare 38 #
 ## A Small World ##
 
