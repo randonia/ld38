@@ -32,7 +32,11 @@ class GameState extends BaseState {
     layer = map.createLayer(0);
     layer.resizeWorld();
     layer.debug = true;
-    map.setCollision(15);
+    for (var tIdx = TILES.length - 1; tIdx >= 0; tIdx--) {
+      if (TILES[tIdx].collide) {
+        map.setCollision(TILES[tIdx].index);
+      }
+    }
 
     // Create the player
     player = new Player();
@@ -40,10 +44,10 @@ class GameState extends BaseState {
     game.camera.follow(player.sprite);
   }
   update() {
+    game.physics.arcade.collide(player.sprite, layer);
     for (var i = gameObjects.length - 1; i >= 0; i--) {
       gameObjects[i].update();
     }
-    game.physics.arcade.collide(player.sprite, layer);
   }
   render() {
     game.debug.quadTree(game.physics.arcade.quadTree);
