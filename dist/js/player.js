@@ -1,4 +1,4 @@
-const PLAYER_SPEED = 50.0;
+const PLAYER_SPEED = 150.0;
 class Player {
   get X() {
     return this.sprite.body.position.x;
@@ -13,8 +13,9 @@ class Player {
     return this.sprite.body.velocity.y;
   }
   constructor() {
-    this.sprite = game.add.sprite(game.world.randomX, game.world.randomY, 'player');
+    this.sprite = game.add.sprite(32, 64, 'player');
     game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
+    this.sprite.body.collideWorldBounds = true;
   }
   update() {
     var dir = {
@@ -26,7 +27,6 @@ class Player {
     var textOpts = {
       align: 'left'
     };
-    drawText(600, 10, sprintf('Player Position: {%d, %d}', this.X, this.Y), textOpts);
-    drawText(600, 20, sprintf('Player Velocity: {%d, %d}', this.vX, this.vY), textOpts);
+    drawText(0, HEIGHT - 20, sprintf('Player Position: {%d, %d}', this.X, this.Y), textOpts);
   }
 }

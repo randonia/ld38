@@ -22,8 +22,8 @@ h1 {
 }
 
 .game-container {
-  height: 600px;
+  height: 250px;
+  width: 400px;
   margin: 0px auto;
   outline: 1px solid #0095ff;
-  width: 800px;
 }

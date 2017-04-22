@@ -1,7 +1,6 @@
 {
-  "folders": [
-    {
-      "path": ".",
-      "exclude_folder_patterns": [".git"]
-    }]
+  "folders": [{
+    "path": ".",
+    "file_exclude_patterns": ["*.pyxel"]
+  }]
 }
