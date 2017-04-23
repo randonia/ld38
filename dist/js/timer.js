@@ -14,4 +14,10 @@ class Timer {
     this.animation.frame = Math.min(frameNum, this.animation.frameTotal - 1);
     return floatCompleted > 1;
   }
+  destroy() {
+    this.animation.destroy();
+    this.animation = null;
+    this.sprite.destroy();
+    this.sprite = null;
+  }
 }

@@ -99,7 +99,8 @@ class Player {
     var textOpts = {
       align: 'left'
     };
-    drawText(0, HEIGHT - 20, sprintf('Player Position: {%d, %d}', this.X, this.Y), textOpts);
+    // Keep these off due to performance issues
+    //drawText(0, HEIGHT - 20, sprintf('Player Position: {%d, %d}', this.X, this.Y), textOpts);
     var tileX = layer.getTileX(this.X);
     var tileY = layer.getTileY(this.Y);
     var tiles = {};
@@ -119,7 +120,9 @@ class Player {
     var bH = (tiles[DIR_DOWN]) ? tiles[DIR_DOWN].habitat : -1;
     var c = (tiles[CURR_TILE]) ? tiles[CURR_TILE].index : -1;
     var cH = (tiles[CURR_TILE]) ? tiles[CURR_TILE].habitat : -1;
-    drawText(0, HEIGHT - 10, sprintf('L: %s R: %s U: %s D: %s C: %s', l, r, a, b, c));
-    drawText(0, HEIGHT, sprintf('L: %s R: %s U: %s D: %s', lH, rH, aH, bH));
+    // Keep these off due to performance issues
+    //drawText(0, HEIGHT - 10, sprintf('L: %s R: %s U: %s D: %s C: %s', l, r, a, b, c));
+    // Keep these off due to performance issues
+    //drawText(0, HEIGHT, sprintf('L: %s R: %s U: %s D: %s', lH, rH, aH, bH));
   }
 }

@@ -18,6 +18,7 @@ var currFSMState;
 var scoreController;
 class GameState extends BaseState {
   preload() {
+    game.load.spritesheet('rain', 'assets/sprites/rain.png', 8, 8);
     game.load.spritesheet('player', 'assets/sprites/player.png', 16, 16, 8);
     game.load.spritesheet('tiles', 'assets/sprites/tiles.png', 32, 32, 16);
     game.load.spritesheet('timer', 'assets/sprites/timer.png', 32, 32, 16);
@@ -47,6 +48,19 @@ class GameState extends BaseState {
       }
     }
     this.createFishHabitats();
+
+    // Make a rain emitter for flavortown
+    var rainEmitter = game.add.emitter(game.world.centerX, 0, 4000);
+    rainEmitter.width = game.world.width;
+    rainEmitter.makeParticles('rain');
+    rainEmitter.setXSpeed(-10, 10);
+    rainEmitter.setYSpeed(300, 500);
+    rainEmitter.minParticleScale = 0.1;
+    rainEmitter.maxParticleScale = 0.5;
+    rainEmitter.minRotation = rainEmitter.maxRotation = 0;
+    // rainEmitter.start(false, 1600, 0, 0);
+    rainEmitter.flow(1600, 16, 5, -1);
+    this.rainEmitter = rainEmitter;
 
     // Create the player
     player = new Player();
@@ -94,6 +108,8 @@ class GameState extends BaseState {
       function() {
         // Kill timer
         console.log('Exiting fishing');
+        this.clock.destroy();
+        this.clock = null;
       });
 
     var openStoreConsumeOrders = new FSMState('openstore:consume',
@@ -115,8 +131,8 @@ class GameState extends BaseState {
     dayPhaseFishing.addEdge(openStoreConsumeOrders, function() {
       return dayPhaseFishing.completed;
     });
-    openStoreConsumeOrders.addEdge(openStoreGetPaid, () => false);
-    openStoreGetPaid.addEdge(dayStartGetOrder, () => false);
+    openStoreConsumeOrders.addEdge(openStoreGetPaid, () => true);
+    openStoreGetPaid.addEdge(dayStartGetOrder, () => true);
 
     return dayStartGetOrder;
   }
@@ -165,7 +181,7 @@ class GameState extends BaseState {
   }
   render() {
     // Just leaving this in here for debug text
-    game.debug.text('', 0, 0);
+    // game.debug.text('', 0, 0);
     // game.debug.body(player.sprite);
   }
 }
