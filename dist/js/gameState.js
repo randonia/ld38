@@ -39,7 +39,6 @@ class GameState extends BaseState {
     map.addTilesetImage('tiles');
     layer = map.createLayer(0);
     layer.resizeWorld();
-    layer.debug = true;
     for (var tIdx in TILES) {
       if (TILES[tIdx].collide) {
         map.setCollision(TILES[tIdx].tileIndex);
@@ -157,15 +156,12 @@ class GameState extends BaseState {
     for (var habIdx = 0; habIdx < habitats.length; habIdx++) {
       game.physics.arcade.collide(player.sprite, habitats[habIdx].sprite);
     }
-    // game.physics.arcade.collide(player.sprite, habitatsGroup);
     if (currFSMState) {
       currFSMState = currFSMState.update()
     }
     drawText(0, 10, sprintf('Current State: %s', currFSMState.id));
   }
   render() {
-    game.debug.quadTree(game.physics.arcade.quadTree);
-    game.debug.body(player.sprite);
 
   }
 }
