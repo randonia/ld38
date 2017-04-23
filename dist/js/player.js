@@ -69,6 +69,7 @@ class Player {
           this.fishingGameType = fishType;
           this.fishingGame = new FishingGame();
           this.deactivate();
+          fadeScreen(0.9);
         }
       }
     }
@@ -85,6 +86,7 @@ class Player {
         this.fishingGame = null;
         this.backpack.addFish(this.fishingGameType);
         this.fishingGameType = null;
+        fadeScreen(0);
       }
     } else {
 

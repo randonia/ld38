@@ -81,6 +81,7 @@ class GameState extends BaseState {
     this.fadeBMPd.ctx.fillRect(0, 0, WIDTH, HEIGHT);
     fadeSprite = game.add.sprite(0, 0, this.fadeBMPd);
     fadeSprite.alpha = 0.9;
+    fadeSprite.fixedToCamera = true;
     // Make a rain emitter for flavortown
     var rainEmitter = game.add.emitter(game.world.centerX, 0, 4000);
     rainEmitter.width = game.world.width;

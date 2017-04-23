@@ -23,7 +23,7 @@ class Backpack {
     if (this.fishSlots.length < this.capacity) {
       var spriteIndex = FishHabitat.getFishSpriteIndex(fishType);
       var iceboxCount = this.fishSlots.length;
-      var newSprite = game.add.sprite(this.iceSlots[iceboxCount].position.x, this.sprite.position.y, 'fish', spriteIndex);
+      var newSprite = game.add.sprite(WIDTH - (this.capacity) * 16 + iceboxCount * 16 + 8, 0, 'fish', spriteIndex);
       newSprite.pivot.set(8, 0);
       newSprite.fixedToCamera = true;
       this.fishSlots.push(newSprite);
