@@ -10,6 +10,7 @@ var gameObjects;
 var cursors;
 var map;
 var layer;
+var fadeSprite;
 // Habitat/Tile variables
 var habitats;
 var habitatsGroup;
@@ -24,6 +25,12 @@ function makeText(text, x, y, size = undefined) {
   newText.lineSpacing = -10;
   newText.fontSize = size || 14;
   return newText;
+}
+
+function fadeScreen(toAlpha, duration = 500) {
+  game.add.tween(fadeSprite).to({
+    alpha: toAlpha
+  }, duration, 'Linear', true);
 }
 class GameState extends BaseState {
   preload() {
@@ -60,7 +67,11 @@ class GameState extends BaseState {
       }
     }
     this.createFishHabitats();
-
+    this.fadeBMPd = game.add.bitmapData(WIDTH, HEIGHT);
+    // Draw random background?
+    this.fadeBMPd.ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    fadeSprite = game.add.sprite(0, 0, this.fadeBMPd);
+    fadeSprite.alpha = 0.9;
     // Make a rain emitter for flavortown
     var rainEmitter = game.add.emitter(game.world.centerX, 0, 4000);
     rainEmitter.width = game.world.width;
@@ -124,6 +135,7 @@ class GameState extends BaseState {
         this.button.pivot.set(this.button.width * 0.5, 0);
         this.buttonText = makeText('Press F to Continue', WIDTH * 0.5, this.button.y + 7);
         this.buttonText.anchor.x = 0.5;
+        fadeScreen(0.9);
       },
       function() {
         // Kill the order window
@@ -190,6 +202,8 @@ class GameState extends BaseState {
         this.button.pivot.set(this.button.width * 0.5, 0);
         this.buttonText = makeText('Press F to Start', WIDTH * 0.5, this.button.y + 7);
         this.buttonText.anchor.x = 0.5;
+
+        fadeScreen(0.9);
       },
       function() {
         // Kill all the windows
@@ -275,6 +289,7 @@ class GameState extends BaseState {
         this.skipDayAction = game.input.keyboard.addKey(Phaser.Keyboard.T);
         this.skipDayAction.onDown.add(this.skipDayFunc, this);
         this.skipDayLastSkipPress = undefined;
+        fadeScreen(0);
       },
       function() {
         // Kill timer
@@ -292,6 +307,7 @@ class GameState extends BaseState {
         this.skipDayLastSkipPress = undefined;
         this.skipDayAction.reset();
         this.skipDayAction = null;
+        fadeScreen(0.9);
       });
 
     var openStoreConsumeOrders = new FSMState('openstore:consume',
@@ -352,6 +368,7 @@ class GameState extends BaseState {
         this.keyAccept.onDown.add(function(event) {
           _this.readyToGo = true;
         }, this);
+        fadeScreen(0.9);
       },
       function() {
         console.log('Exiting store consume');
