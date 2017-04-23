@@ -24,7 +24,7 @@ function makeText(text, x, y, size = undefined) {
   var newText = game.add.text(x, y, text);
   newText.font = 'Indie Flower';
   newText.lineSpacing = -10;
-  newText.fontSize = size || 14;
+  newText.fontSize = size || 16;
   return newText;
 }
 
@@ -37,7 +37,7 @@ class GameState extends BaseState {
   preload() {
     game.load.spritesheet('progress-bar-vertical', 'assets/sprites/progress-bar-vertical.png', 16, 96, 1);
     game.load.spritesheet('super-legit-button', 'assets/sprites/super-legit-button.png', 128, 32, 1);
-    game.load.spritesheet('super-legit-menu', 'assets/sprites/super-legit-menu.png', 256, 128, 2);
+    game.load.spritesheet('super-legit-menu', 'assets/sprites/super-legit-menu.png', 256, 160, 2);
     game.load.spritesheet('fishing-rod-zone', 'assets/sprites/fishing-rod-zone.png', 11, 32, 1);
     game.load.spritesheet('order-bar', 'assets/sprites/order-bar.png', 32, 54, 1);
     game.load.spritesheet('player', 'assets/sprites/player.png', 16, 16, 8);
@@ -140,11 +140,10 @@ class GameState extends BaseState {
         ordersText += sprintf('Total fish needed for today:\n%s', needsString);
         this.header = game.add.sprite(WIDTH * 0.5, 30, 'super-legit-menu', 1);
         this.header.pivot.set(this.header.width * 0.5, 0);
-        this.headerText = makeText('Today\'s Orders', WIDTH * 0.5, this.header.position.y + 10, 14);
-        this.headerText.anchor.x = 0.5;
+        this.headerText = makeText('Today\'s Orders', 158, this.header.position.y + 10, 14);
         this.menu = game.add.sprite(WIDTH * 0.5, this.header.position.y + 30, 'super-legit-menu');
         this.menu.pivot.set(this.menu.width * 0.5, 0);
-        this.button = game.add.button(WIDTH * 0.5, this.menu.y + 128, 'super-legit-button', function() {
+        this.button = game.add.button(WIDTH * 0.5, this.menu.y + 150, 'super-legit-button', function() {
           _this.readyToGo = true;
         });
         this.menuText = makeText(ordersText,
@@ -153,7 +152,7 @@ class GameState extends BaseState {
         );
 
         this.button.pivot.set(this.button.width * 0.5, 0);
-        this.buttonText = makeText('Press F to Continue', WIDTH * 0.5, this.button.y + 7);
+        this.buttonText = makeText('Press F to Continue', WIDTH * 0.5, this.button.y + 7, 14);
         this.buttonText.anchor.x = 0.5;
         fadeScreen(0.9);
       },
@@ -216,7 +215,7 @@ class GameState extends BaseState {
         this.menuText = makeText(reportText,
           10 + this.menu.position.x - this.menu.pivot.x,
           10 + this.menu.position.y - this.menu.pivot.y);
-        this.button = game.add.button(WIDTH * 0.5, this.menu.y + 128, 'super-legit-button', function() {
+        this.button = game.add.button(WIDTH * 0.5, this.menu.y + 150, 'super-legit-button', function() {
           _this.readyToGo = true;
         });
         this.button.pivot.set(this.button.width * 0.5, 0);
@@ -305,7 +304,8 @@ class GameState extends BaseState {
         var orderBarTextString = this.calculateOrderBarTextString();
         this.orderBarText = makeText(orderBarTextString,
           20,
-          HEIGHT - 58
+          HEIGHT - 58,
+          14
         );
         this.orderBarText.fixedToCamera = true;
         this.orderBarText.lineSpacing = -7;
@@ -366,7 +366,7 @@ class GameState extends BaseState {
         // That's for polish step
         this.header = game.add.sprite(WIDTH * 0.5, 30, 'super-legit-menu', 1);
         this.header.pivot.set(this.header.width * 0.5, 0);
-        this.headerText = makeText('Order Fulfillment Report', WIDTH * 0.5, this.header.position.y + 10, 14);
+        this.headerText = makeText('Order Fulfillment Report', WIDTH * 0.5, this.header.position.y + 10, 16);
         this.headerText.anchor.x = 0.5;
         this.menu = game.add.sprite(WIDTH * 0.5, this.header.position.y + 30, 'super-legit-menu');
         this.menu.pivot.set(this.menu.width * 0.5, 0);
@@ -384,7 +384,7 @@ class GameState extends BaseState {
         this.menuText = makeText(reportText,
           10 + this.menu.position.x - this.menu.pivot.x,
           10 + this.menu.position.y - this.menu.pivot.y);
-        this.button = game.add.button(WIDTH * 0.5, this.menu.y + 128, 'super-legit-button', function() {
+        this.button = game.add.button(WIDTH * 0.5, this.menu.y + 150, 'super-legit-button', function() {
           _this.readyToGo = true;
         });
         this.button.pivot.set(this.button.width * 0.5, 0);
