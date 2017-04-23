@@ -24,6 +24,7 @@ class Player {
     this.sprite = game.add.sprite(32, 64, 'player');
     game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
     this.sprite.body.collideWorldBounds = true;
+    this.backpack = new Backpack(3);
     this.directions = {};
     this.facingDirection = DIR_DOWN;
     keyAction = game.input.keyboard.addKey(Phaser.Keyboard.F);
@@ -37,9 +38,19 @@ class Player {
     }
   }
   doFishAction(event) {
-    console.log(this.adjacentTiles[this.facingDirection].habitat);
+    if (this.backpack.isFull) {
+      return;
+    }
+    var habitat = this.adjacentTiles[this.facingDirection].habitat;
+    if (habitat) {
+      var newFish = habitat.fish();
+      if (newFish) {
+        this.backpack.addFish(newFish);
+      }
+    }
   }
   update() {
+    this.backpack.update();
     this.directions[DIR_UP] = cursors.up.isDown;
     this.directions[DIR_DOWN] = cursors.down.isDown;
     this.directions[DIR_LEFT] = cursors.left.isDown;

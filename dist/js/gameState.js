@@ -17,7 +17,7 @@ var habitatsGroup;
 var currFSMState;
 class GameState extends BaseState {
   preload() {
-    game.load.spritesheet('player', 'assets/sprites/player.png', 16, 16, 1);
+    game.load.spritesheet('player', 'assets/sprites/player.png', 16, 16, 8);
     game.load.spritesheet('tiles', 'assets/sprites/tiles.png', 32, 32, 16);
     game.load.spritesheet('timer', 'assets/sprites/timer.png', 32, 32, 16);
     game.load.spritesheet('fish', 'assets/sprites/fish.png', 16, 16, 16);

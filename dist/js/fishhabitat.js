@@ -1,5 +1,19 @@
 // A data representation of a tile group's fish
 class FishHabitat {
+  static getFishSpriteIndex(fishType) {
+    switch (fishType) {
+      case FISH_TYPE_1:
+        return 0;
+        break;
+      case FISH_TYPE_2:
+        return 4;
+        break;
+      case FISH_TYPE_3:
+        return 8;
+        break;
+    }
+    throw Error(sprintf('Unknown fish type %s', fishType));
+  }
   constructor(tiles) {
     this.tiles = tiles;
     this.group = game.add.group();
@@ -56,6 +70,16 @@ class FishHabitat {
       this.fishData[fishType].spawn();
     }
   }
+  // Player has successfully interacted with a fishing action
+  fish() {
+    // Pick a random fish to provide
+    var randFishIdx = Math.floor(Math.random() * this.spawnData.length);
+    var randFish = this.spawnData[randFishIdx];
+    if (this.fishData[randFish].fish()) {
+      return randFish;
+    }
+    return null;
+  }
 
 }
 
@@ -63,7 +87,7 @@ class FishData {
   constructor(fishType, habitat) {
     this.fishType = fishType;
     this.count = 0;
-    this.lastSpawn = NaN;
+    this.lastChange = NaN;
     this.lastCount = 0;
     this.habitat = habitat;
     this.states = [];
@@ -71,29 +95,39 @@ class FishData {
   // Let's do this by deltas
   applyState(state) {
     this.lastCount = this.count;
-    this.lastSpawn = state.spawnTime;
-    this.count += state.newSpawned;
+    this.lastChange = state.timestamp;
+    this.count += state.deltaFish;
     this.states.push(state);
-    console.log(sprintf('[%s]: [%d]', this.fishType, this.count));
   }
   spawn() {
     var fishData = FISH_SPAWN_DATA[this.fishType];
 
     var spawnDelta = {
-      spawnTime: Date.now(),
-      newSpawned: 0,
+      timestamp: Date.now(),
+      deltaFish: 0,
     };
 
     // Initialize if there's no history
     if (this.states.length == 0) {
-      spawnDelta.newSpawned = fishData.startingQuantity; // * this.habitat.tiles.length;
+      spawnDelta.deltaFish = fishData.startingQuantity; // * this.habitat.tiles.length;
     } else {
       // Growth time
       if (Math.random() > fishData.chanceNoSpawn) {
-        spawnDelta.newSpawned = fishData.spawnPerDay + (fishData.perTileBonus + this.habitat.tiles.length);
+        spawnDelta.deltaFish = fishData.spawnPerDay + (fishData.perTileBonus + this.habitat.tiles.length);
       }
     }
 
     this.applyState(spawnDelta);
+  }
+  fish() {
+    if (this.count > 0) {
+      var fishDelta = {
+        timestamp: Date.now(),
+        deltaFish: -1
+      }
+      this.applyState(fishDelta);
+      return true;
+    }
+    return false;
   }
 }
