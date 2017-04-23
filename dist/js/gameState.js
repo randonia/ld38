@@ -11,6 +11,7 @@ var cursors;
 var map;
 var layer;
 var fadeSprite;
+var bgm;
 // Habitat/Tile variables
 var habitats;
 var habitatsGroup;
@@ -44,11 +45,16 @@ class GameState extends BaseState {
     game.load.spritesheet('timer', 'assets/sprites/timer.png', 32, 32, 16);
     game.load.spritesheet('fish', 'assets/sprites/fish.png', 16, 16, 16);
     game.load.spritesheet('rain', 'assets/sprites/rain.png', 8, 8);
+    game.load.audio('bgm', 'assets/audio/bgm.mp3');
     game.load.tilemap('map', 'assets/maps/mainmap.csv', null, Phaser.Tilemap.CSV);
     game.load.text('habitat_clusters', 'assets/maps/habitat_clusters.csv');
     game.time.advancedTiming = true;
   }
   create() {
+    bgm = game.add.audio('bgm');
+    bgm.loop = true;
+    bgm.play();
+    bgm.volume = 0.4;
     gameObjects = [];
     scoreController = new ScoreController();
 
