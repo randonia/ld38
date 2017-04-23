@@ -2,10 +2,11 @@
 class FSMState {
   // ID       - ID of this state
   // loopFunc - This state's update loop
-  constructor(id, loopFunc, enterFunc = undefined, exitFunc = undefined) {
+  constructor(id, loopFunc, enterFunc = undefined, exitFunc = undefined, renderFunc = undefined) {
     console.log(sprintf('Creating state id [%s]', id))
     this.id = id;
     this.loopFunc = loopFunc;
+    this.renderFunc = renderFunc;
     this.enterFunc = enterFunc;
     this.exitFunc = exitFunc;
     this.transitions = [];
@@ -38,5 +39,8 @@ class FSMState {
       }
     }
     return this;
+  }
+  render() {
+    if (this.renderFunc) this.renderFunc();
   }
 }

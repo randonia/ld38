@@ -34,8 +34,10 @@ function fadeScreen(toAlpha, duration = 500) {
 }
 class GameState extends BaseState {
   preload() {
-    game.load.spritesheet('super-legit-menu', 'assets/sprites/super-legit-menu.png', 256, 128, 2);
+    game.load.spritesheet('progress-bar-vertical', 'assets/sprites/progress-bar-vertical.png', 16, 96, 1);
     game.load.spritesheet('super-legit-button', 'assets/sprites/super-legit-button.png', 128, 32, 1);
+    game.load.spritesheet('super-legit-menu', 'assets/sprites/super-legit-menu.png', 256, 128, 2);
+    game.load.spritesheet('fishing-rod-zone', 'assets/sprites/fishing-rod-zone.png', 11, 32, 1);
     game.load.spritesheet('order-bar', 'assets/sprites/order-bar.png', 32, 54, 1);
     game.load.spritesheet('player', 'assets/sprites/player.png', 16, 16, 8);
     game.load.spritesheet('tiles', 'assets/sprites/tiles.png', 32, 32, 16);
@@ -44,11 +46,18 @@ class GameState extends BaseState {
     game.load.spritesheet('rain', 'assets/sprites/rain.png', 8, 8);
     game.load.tilemap('map', 'assets/maps/mainmap.csv', null, Phaser.Tilemap.CSV);
     game.load.text('habitat_clusters', 'assets/maps/habitat_clusters.csv');
+    game.time.advancedTiming = true;
   }
   create() {
     gameObjects = [];
     scoreController = new ScoreController();
 
+    this.fpsText = game.add.text(WIDTH - 40, HEIGHT - 10, 'FPS');
+    this.fpsText.fontSize = 10;
+    this.fpsText.fill = 'white';
+    this.fpsText.setShadow(1, 1, 'black', 1);
+    this.fpsText.font = 'Courier New';
+    this.fpsText.fixedToCamera = true;
     // Create cursor keys
     cursors = game.input.keyboard.createCursorKeys();
 
@@ -96,7 +105,7 @@ class GameState extends BaseState {
   // Builds the entire gameplay loop
   buildStateGraph() {
     var dayStartGetOrder = new FSMState('daystart:neworder',
-      () => {},
+      function() {},
       function() {
         // Create the order window
         console.log('entering daystart:neworder');
@@ -232,6 +241,9 @@ class GameState extends BaseState {
         this.completed = this.clock.update();
         if (this.timeLastOrderBarCalculated + 2500 < Date.now()) {
           this.orderBarText.text = this.calculateOrderBarTextString();
+        }
+        if (this.fishingGame) {
+          this.fishingGame.update();
         }
       },
       // Because we reference 'this', we need to use an anonymous function instead of a lambda
@@ -446,16 +458,22 @@ class GameState extends BaseState {
     }
   }
   update() {
+    this.fpsText.bringToTop();
+    this.fpsText.text = sprintf('FPS %d', game.time.fps);
     game.physics.arcade.collide(player.sprite, layer);
     for (var habIdx = 0; habIdx < habitats.length; habIdx++) {
       game.physics.arcade.collide(player.sprite, habitats[habIdx].sprite);
     }
     if (currFSMState) {
-      currFSMState = currFSMState.update()
+      currFSMState = currFSMState.update();
+      drawText(0, 10, sprintf('Current State: %s', currFSMState.id));
     }
-    drawText(0, 10, sprintf('Current State: %s', currFSMState.id));
+
   }
   render() {
+    if (currFSMState) {
+      currFSMState.render();
+    }
     // Just leaving this in here for debug text
     // game.debug.text('', 0, 0);
     // game.debug.body(player.sprite);

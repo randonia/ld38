@@ -80,11 +80,16 @@ class FishHabitat {
     }
   }
   // Player has successfully interacted with a fishing action
-  fish() {
-    // Pick a random fish to provide
+  canFish() {
     var randFishIdx = Math.floor(Math.random() * this.spawnData.length);
     var randFish = this.spawnData[randFishIdx];
-    if (this.fishData[randFish].fish()) {
+    if (this.fishData[randFish].count > 0) {
+      return randFish;
+    }
+    return null;
+  }
+  fish(fishType) {
+    if (this.fishData[fishType].fish()) {
       return randFish;
     }
     return null;
