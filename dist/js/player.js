@@ -33,19 +33,35 @@ class Player {
   actionHandler(event) {
     switch (event.keyCode) {
       case Phaser.Keyboard.F:
-        this.doFishAction(event);
+        this.doActionInteractWithFacingTile(event);
         break;
     }
   }
-  doFishAction(event) {
-    if (this.backpack.isFull) {
+  doActionInteractWithFacingTile(event) {
+    var facingTile = this.adjacentTiles[this.facingDirection];
+    if (!facingTile) {
       return;
     }
-    var habitat = this.adjacentTiles[this.facingDirection].habitat;
-    if (habitat) {
-      var newFish = habitat.fish();
-      if (newFish) {
-        this.backpack.addFish(newFish);
+    // Is it the restaurant?
+    if (TILES[facingTile.index].name === 'store') {
+      var item = this.backpack.popItem();
+      if (item) {
+        // Store it in the restaurant
+        if (!scoreController.storeItem(item)) {
+          // Something bad happened, handle this later
+          console.log('Failed to store an item');
+        }
+      }
+    } else {
+      var habitat = this.adjacentTiles[this.facingDirection].habitat;
+      if (habitat) {
+        if (this.backpack.isFull) {
+          return;
+        }
+        var newFish = habitat.fish();
+        if (newFish) {
+          this.backpack.addFish(newFish);
+        }
       }
     }
   }

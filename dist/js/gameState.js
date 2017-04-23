@@ -3,7 +3,7 @@ const DEFAULT_FONT_ALIGN = 'start';
 const DEFAULT_FONT_COLOR = '#00ff00';
 const DEFAULT_FONT_SIZE = 11;
 // 30 second day timers
-const DEFAULT_DAY_DURATION = 30000;
+const DEFAULT_DAY_DURATION = 90000;
 
 var player;
 var gameObjects;
@@ -15,6 +15,7 @@ var habitats;
 var habitatsGroup;
 // Uses fsm to handle game looping
 var currFSMState;
+var scoreController;
 class GameState extends BaseState {
   preload() {
     game.load.spritesheet('player', 'assets/sprites/player.png', 16, 16, 8);
@@ -26,6 +27,7 @@ class GameState extends BaseState {
   }
   create() {
     gameObjects = [];
+    scoreController = new ScoreController();
 
     // Create cursor keys
     cursors = game.input.keyboard.createCursorKeys();
@@ -162,7 +164,8 @@ class GameState extends BaseState {
     drawText(0, 10, sprintf('Current State: %s', currFSMState.id));
   }
   render() {
-
+    // Just leaving this in here for debug text
+    game.debug.text('', 0, 0);
   }
 }
 
