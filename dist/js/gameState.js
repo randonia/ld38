@@ -29,6 +29,7 @@ class GameState extends BaseState {
   preload() {
     game.load.spritesheet('super-legit-menu', 'assets/sprites/super-legit-menu.png', 256, 128, 2);
     game.load.spritesheet('super-legit-button', 'assets/sprites/super-legit-button.png', 128, 32, 1);
+    game.load.spritesheet('order-bar', 'assets/sprites/order-bar.png', 32, 54, 1);
     game.load.spritesheet('player', 'assets/sprites/player.png', 16, 16, 8);
     game.load.spritesheet('tiles', 'assets/sprites/tiles.png', 32, 32, 16);
     game.load.spritesheet('timer', 'assets/sprites/timer.png', 32, 32, 16);
@@ -85,13 +86,63 @@ class GameState extends BaseState {
   buildStateGraph() {
     var dayStartGetOrder = new FSMState('daystart:neworder',
       () => {},
-      () => {
+      function() {
         // Create the order window
         console.log('entering daystart:neworder');
+        var _this = this;
+        dayStartGetOrder.readyToGo = false;
+        var orders = scoreController.makeOrders();
+        // This is *super* busy and pretty lame. It should just have raw sprite images instead.
+        // That's for polish step
+        this.keyAccept = game.input.keyboard.addKey(Phaser.Keyboard.F);
+        var _this = this;
+        this.keyAccept.onDown.add(function(event) {
+          _this.readyToGo = true;
+        }, this);
+
+        var ordersText = '';
+        for (var oIdx = 0; oIdx < orders.length; oIdx++) {
+          var currOrder = orders[oIdx];
+          ordersText += sprintf('%s: %s\n', currOrder.name, currOrder.ingredients.join(', '));
+        }
+        var totals = scoreController.currentTotals;
+        ordersText += sprintf('%s\n', JSON.stringify(totals));
+        this.header = game.add.sprite(WIDTH * 0.5, 30, 'super-legit-menu', 1);
+        this.header.pivot.set(this.header.width * 0.5, 0);
+        this.headerText = makeText('Today\'s Orders', WIDTH * 0.5, this.header.position.y + 10, 14);
+        this.headerText.anchor.x = 0.5;
+        this.menu = game.add.sprite(WIDTH * 0.5, this.header.position.y + 30, 'super-legit-menu');
+        this.menu.pivot.set(this.menu.width * 0.5, 0);
+        this.button = game.add.button(WIDTH * 0.5, this.menu.y + 128, 'super-legit-button', function() {
+          _this.readyToGo = true;
+        });
+        this.menuText = makeText(ordersText,
+          10 + this.menu.position.x - this.menu.pivot.x,
+          10 + this.menu.position.y - this.menu.pivot.y
+        );
+
+        this.button.pivot.set(this.button.width * 0.5, 0);
+        this.buttonText = makeText('Press F to Continue', WIDTH * 0.5, this.button.y + 7);
+        this.buttonText.anchor.x = 0.5;
       },
-      () => {
+      function() {
         // Kill the order window
         console.log('exiting daystart:neworder');
+        dayStartGetOrder.readyToGo = false;
+        this.header.destroy();
+        this.header = null;
+        this.headerText.destroy();
+        this.headerText = null;
+        this.menu.destroy();
+        this.menu = null;
+        this.menuText.destroy();
+        this.menuText = null;
+        this.button.destroy();
+        this.button = null;
+        this.buttonText.destroy();
+        this.buttonText = null;
+        this.readyToGo = false;
+        this.keyAccept.reset();
       });
 
     var dayStartGetSpawnReport = new FSMState('daystart:getspawnreport',
@@ -129,7 +180,6 @@ class GameState extends BaseState {
             joinedReportStr += sprintf('%s: %d (+%d), ', latest.fishType, latest.reports.count, latest.reports.deltaFish);
           }
           reportText += sprintf('%s:\n%s\n', currResult.groupName, joinedReportStr);
-          console.log(currResult);
         }
         this.menuText = makeText(reportText,
           10 + this.menu.position.x - this.menu.pivot.x,
@@ -138,7 +188,7 @@ class GameState extends BaseState {
           _this.readyToGo = true;
         });
         this.button.pivot.set(this.button.width * 0.5, 0);
-        this.buttonText = makeText('Press F to Continue', WIDTH * 0.5, this.button.y + 7);
+        this.buttonText = makeText('Press F to Start', WIDTH * 0.5, this.button.y + 7);
         this.buttonText.anchor.x = 0.5;
       },
       function() {
@@ -166,12 +216,43 @@ class GameState extends BaseState {
           gameObjects[i].update();
         }
         this.completed = this.clock.update();
+        if (this.timeLastOrderBarCalculated + 2500 < Date.now()) {
+          this.orderBarText.text = this.calculateOrderBarTextString();
+        }
       },
       // Because we reference 'this', we need to use an anonymous function instead of a lambda
       function() {
+        // This assumes it's in order 1,2,3. Do not change or you'll be in dire straights
+        this.calculateOrderBarTextString = function() {
+          // Prevent it from being too laggy
+          this.timeLastOrderBarCalculated = Date.now();
+          var orders = scoreController.currentTotals
+          var currentInventory = scoreController.currentInventory;
+          var fish1Delta = Math.max(orders[FISH_TYPE_1] - currentInventory[FISH_TYPE_1], 0);
+          var fish2Delta = Math.max(orders[FISH_TYPE_2] - currentInventory[FISH_TYPE_2], 0);
+          var fish3Delta = Math.max(orders[FISH_TYPE_3] - currentInventory[FISH_TYPE_3], 0);
+          return sprintf('%d\n%d\n%d', fish1Delta, fish2Delta, fish3Delta);
+        };
         // Create timer
         this.clock = new Timer(DEFAULT_DAY_DURATION);
         player.activate();
+        // Create the order bar
+        this.orderBar = game.add.sprite(0, HEIGHT - 60, 'order-bar');
+        this.orderBarSpriteGroup = game.add.group();
+        var fish1 = game.add.sprite(0, 0, 'fish', FishHabitat.getFishSpriteIndex(FISH_TYPE_1));
+        this.orderBarSpriteGroup.add(fish1);
+        var fish2 = game.add.sprite(0, 0, 'fish', FishHabitat.getFishSpriteIndex(FISH_TYPE_2));
+        this.orderBarSpriteGroup.add(fish2);
+        var fish3 = game.add.sprite(0, 0, 'fish', FishHabitat.getFishSpriteIndex(FISH_TYPE_3));
+        this.orderBarSpriteGroup.add(fish3);
+        this.orderBarSpriteGroup.align(1, -1, 16, 16, Phaser.CENTER);
+        this.orderBarSpriteGroup.position.set(this.orderBar.x + 3, this.orderBar.y + 3);
+        var orderBarTextString = this.calculateOrderBarTextString();
+        this.orderBarText = makeText(orderBarTextString,
+          this.orderBarSpriteGroup.position.x + 17,
+          this.orderBarSpriteGroup.position.y
+        );
+        this.orderBarText.lineSpacing = -7;
       },
       function() {
         // Kill timer
@@ -179,6 +260,13 @@ class GameState extends BaseState {
         this.clock.destroy();
         this.clock = null;
         player.deactivate();
+        // Destroy the order bar
+        this.orderBar.destroy();
+        this.orderBar = null;
+        this.orderBarSpriteGroup.destroy();
+        this.orderBarSpriteGroup = null;
+        this.orderBarText.destroy();
+        this.orderBarText = null;
       });
 
     var openStoreConsumeOrders = new FSMState('openstore:consume',
@@ -195,7 +283,9 @@ class GameState extends BaseState {
       () => {},
       () => {});
 
-    dayStartGetOrder.addEdge(dayStartGetSpawnReport, () => true);
+    dayStartGetOrder.addEdge(dayStartGetSpawnReport, function() {
+      return dayStartGetOrder.readyToGo;
+    });
     dayStartGetSpawnReport.addEdge(dayPhaseFishing, function() {
       return dayStartGetSpawnReport.readyToGo;
     });
