@@ -9,10 +9,10 @@ var keyAction;
 
 class Player {
   get X() {
-    return this.sprite.body.position.x;
+    return this.sprite.body.position.x + this.sprite.width * 0.5;
   }
   get Y() {
-    return this.sprite.body.position.y;
+    return this.sprite.body.position.y + this.sprite.height * 0.5;
   }
   get vX() {
     return this.sprite.body.velocity.x;

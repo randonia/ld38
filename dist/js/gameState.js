@@ -166,6 +166,7 @@ class GameState extends BaseState {
   render() {
     // Just leaving this in here for debug text
     game.debug.text('', 0, 0);
+    // game.debug.body(player.sprite);
   }
 }
 
