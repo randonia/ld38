@@ -133,7 +133,11 @@ class GameState extends BaseState {
           ordersText += sprintf('%s: %s\n', currOrder.name, currOrder.ingredients.join(', '));
         }
         var totals = scoreController.currentTotals;
-        ordersText += sprintf('%s\n', JSON.stringify(totals));
+        var needsString = '';
+        for(var fishKey in totals) {
+          needsString += sprintf('%s - %d ', fishKey, totals[fishKey]);
+        }
+        ordersText += sprintf('Total fish needed for today:\n%s', needsString);
         this.header = game.add.sprite(WIDTH * 0.5, 30, 'super-legit-menu', 1);
         this.header.pivot.set(this.header.width * 0.5, 0);
         this.headerText = makeText('Today\'s Orders', WIDTH * 0.5, this.header.position.y + 10, 14);
