@@ -28,7 +28,12 @@ class Player {
     this.directions = {};
     this.facingDirection = DIR_DOWN;
     keyAction = game.input.keyboard.addKey(Phaser.Keyboard.F);
+  }
+  activate() {
     keyAction.onDown.add(this.actionHandler, this);
+  }
+  deactivate() {
+    keyAction.reset();
   }
   actionHandler(event) {
     switch (event.keyCode) {

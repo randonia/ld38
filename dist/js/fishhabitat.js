@@ -14,13 +14,14 @@ class FishHabitat {
     }
     throw Error(sprintf('Unknown fish type %s', fishType));
   }
-  constructor(tiles) {
+  constructor(tiles, groupKey) {
+    this.groupKey = groupKey;
+    this.groupName = habitatNames[groupKey];
     this.tiles = tiles;
     this.group = game.add.group();
     this.spawnData = [];
     this.initSpriteSpawnData();
     this.fishData = {};
-    this.spawnFish();
   }
   initSpriteSpawnData() {
     this.pool = {};
@@ -62,12 +63,20 @@ class FishHabitat {
     this.group.pivot.set(8, 8);
   }
   spawnFish() {
+    var results = [];
     for (var spawnIdx = 0; spawnIdx < this.spawnData.length; spawnIdx++) {
       var fishType = this.spawnData[spawnIdx];
       if (!this.fishData[fishType]) {
         this.fishData[fishType] = new FishData(fishType, this);
       }
-      this.fishData[fishType].spawn();
+      results.push({
+        fishType: fishType,
+        reports: this.fishData[fishType].spawn()
+      });
+    }
+    return {
+      groupName: this.groupName,
+      results: results,
     }
   }
   // Player has successfully interacted with a fishing action
@@ -80,7 +89,6 @@ class FishHabitat {
     }
     return null;
   }
-
 }
 
 class FishData {
@@ -97,7 +105,10 @@ class FishData {
     this.lastCount = this.count;
     this.lastChange = state.timestamp;
     this.count += state.deltaFish;
+    state.count = this.count;
+    state.number = this.states.length;
     this.states.push(state);
+    return state;
   }
   spawn() {
     var fishData = FISH_SPAWN_DATA[this.fishType];
@@ -117,7 +128,7 @@ class FishData {
       }
     }
 
-    this.applyState(spawnDelta);
+    return this.applyState(spawnDelta);
   }
   fish() {
     if (this.count > 0) {

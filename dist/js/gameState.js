@@ -13,16 +13,27 @@ var layer;
 // Habitat/Tile variables
 var habitats;
 var habitatsGroup;
+var habitatNames;
 // Uses fsm to handle game looping
 var currFSMState;
 var scoreController;
+
+function makeText(text, x, y, size = undefined) {
+  var newText = game.add.text(x, y, text);
+  newText.font = 'Indie Flower';
+  newText.lineSpacing = -10;
+  newText.fontSize = size || 14;
+  return newText;
+}
 class GameState extends BaseState {
   preload() {
-    game.load.spritesheet('rain', 'assets/sprites/rain.png', 8, 8);
+    game.load.spritesheet('super-legit-menu', 'assets/sprites/super-legit-menu.png', 256, 128, 2);
+    game.load.spritesheet('super-legit-button', 'assets/sprites/super-legit-button.png', 128, 32, 1);
     game.load.spritesheet('player', 'assets/sprites/player.png', 16, 16, 8);
     game.load.spritesheet('tiles', 'assets/sprites/tiles.png', 32, 32, 16);
     game.load.spritesheet('timer', 'assets/sprites/timer.png', 32, 32, 16);
     game.load.spritesheet('fish', 'assets/sprites/fish.png', 16, 16, 16);
+    game.load.spritesheet('rain', 'assets/sprites/rain.png', 8, 8);
     game.load.tilemap('map', 'assets/maps/mainmap.csv', null, Phaser.Tilemap.CSV);
     game.load.text('habitat_clusters', 'assets/maps/habitat_clusters.csv');
   }
@@ -69,6 +80,7 @@ class GameState extends BaseState {
     currFSMState = this.buildStateGraph();
     currFSMState.enter();
   }
+
   // Builds the entire gameplay loop
   buildStateGraph() {
     var dayStartGetOrder = new FSMState('daystart:neworder',
@@ -83,14 +95,69 @@ class GameState extends BaseState {
       });
 
     var dayStartGetSpawnReport = new FSMState('daystart:getspawnreport',
-      () => {},
-      () => {
-        // Create spawn report window
+      function() {},
+      function() {
         console.log('Entering getspawnreport');
+        this.readyToGo = false;
+        var spawnResults = [];
+        // Add a key listener on this for setting readyToGo to true
+        this.keyAccept = game.input.keyboard.addKey(Phaser.Keyboard.F);
+        var _this = this;
+        this.keyAccept.onDown.add(function(event) {
+          _this.readyToGo = true;
+        }, this);
+
+        for (var hIdx = 0; hIdx < habitats.length; hIdx++) {
+          var newResult = habitats[hIdx].spawnFish();
+          spawnResults.push(newResult);
+        }
+        // Create spawn report window
+        // This is *super* busy and pretty lame. It should just have raw sprite images instead.
+        // That's for polish step
+        this.header = game.add.sprite(WIDTH * 0.5, 30, 'super-legit-menu', 1);
+        this.header.pivot.set(this.header.width * 0.5, 0);
+        this.headerText = makeText('Fish Spawn Report', WIDTH * 0.5, this.header.position.y + 10, 14);
+        this.headerText.anchor.x = 0.5;
+        this.menu = game.add.sprite(WIDTH * 0.5, this.header.position.y + 30, 'super-legit-menu');
+        this.menu.pivot.set(this.menu.width * 0.5, 0);
+        var reportText = '';
+        for (var resultIdx = 0; resultIdx < spawnResults.length; resultIdx++) {
+          var currResult = spawnResults[resultIdx];
+          var joinedReportStr = '';
+          for (var jrsIdx = 0; jrsIdx < currResult.results.length; jrsIdx++) {
+            var latest = currResult.results[jrsIdx];
+            joinedReportStr += sprintf('%s: %d (+%d), ', latest.fishType, latest.reports.count, latest.reports.deltaFish);
+          }
+          reportText += sprintf('%s:\n%s\n', currResult.groupName, joinedReportStr);
+          console.log(currResult);
+        }
+        this.menuText = makeText(reportText,
+          10 + this.menu.position.x - this.menu.pivot.x,
+          10 + this.menu.position.y - this.menu.pivot.y);
+        this.button = game.add.button(WIDTH * 0.5, this.menu.y + 128, 'super-legit-button', function() {
+          _this.readyToGo = true;
+        });
+        this.button.pivot.set(this.button.width * 0.5, 0);
+        this.buttonText = makeText('Press F to Continue', WIDTH * 0.5, this.button.y + 7);
+        this.buttonText.anchor.x = 0.5;
       },
-      () => {
-        // Kill spawn report window
+      function() {
+        // Kill all the windows
         console.log('Exiting getspawnreport');
+        this.header.destroy();
+        this.header = null;
+        this.headerText.destroy();
+        this.headerText = null;
+        this.menu.destroy();
+        this.menu = null;
+        this.menuText.destroy();
+        this.menuText = null;
+        this.button.destroy();
+        this.button = null;
+        this.buttonText.destroy();
+        this.buttonText = null;
+        this.readyToGo = false;
+        this.keyAccept.reset();
       });
 
     var dayPhaseFishing = new FSMState('daystate:fishing',
@@ -104,12 +171,14 @@ class GameState extends BaseState {
       function() {
         // Create timer
         this.clock = new Timer(DEFAULT_DAY_DURATION);
+        player.activate();
       },
       function() {
         // Kill timer
         console.log('Exiting fishing');
         this.clock.destroy();
         this.clock = null;
+        player.deactivate();
       });
 
     var openStoreConsumeOrders = new FSMState('openstore:consume',
@@ -127,7 +196,9 @@ class GameState extends BaseState {
       () => {});
 
     dayStartGetOrder.addEdge(dayStartGetSpawnReport, () => true);
-    dayStartGetSpawnReport.addEdge(dayPhaseFishing, () => true);
+    dayStartGetSpawnReport.addEdge(dayPhaseFishing, function() {
+      return dayStartGetSpawnReport.readyToGo;
+    });
     dayPhaseFishing.addEdge(openStoreConsumeOrders, function() {
       return dayPhaseFishing.completed;
     });
@@ -138,10 +209,18 @@ class GameState extends BaseState {
   }
   createFishHabitats() {
     habitats = [];
+    habitatNames = {};
     // Map each group of habitats into groups based on the habitat_clusters
     var habitatClusterKeys = {};
     var habitatClustersCSV = game.cache.getText('habitat_clusters');
     var habitatClustersArray = habitatClustersCSV.split('\n');
+    // Yeee #LDJAM
+    var habitatNamesTuples = habitatClustersArray.shift().replace('#names#', '').split(',').map((item) => item.split(':'));
+    for (var nameIdx = 0; nameIdx < habitatNamesTuples.length; nameIdx++) {
+      var habitatId = habitatNamesTuples[nameIdx][0].trim();
+      var habitatName = habitatNamesTuples[nameIdx][1].trim();
+      habitatNames[habitatId] = habitatName;
+    }
     for (var hCAY = 0; hCAY < habitatClustersArray.length; ++hCAY) {
       var habitatClustersLine = habitatClustersArray[hCAY].split(',').map((item) => item.trim());
       if (habitatClustersLine.length <= 1) continue;
@@ -164,7 +243,7 @@ class GameState extends BaseState {
         var tilePosition = clusterTileIdxs[i]
         tilesInGroup.push(map.getTile(tilePosition.x, tilePosition.y));
       }
-      var newHabitat = new FishHabitat(tilesInGroup);
+      var newHabitat = new FishHabitat(tilesInGroup, habitatGroupKey);
       habitats.push(newHabitat);
       habitatsGroup.add(newHabitat.group);
     }
