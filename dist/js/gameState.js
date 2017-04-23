@@ -282,20 +282,22 @@ class GameState extends BaseState {
         player.activate();
         // Create the order bar
         this.orderBar = game.add.sprite(0, HEIGHT - 60, 'order-bar');
-        this.orderBarSpriteGroup = game.add.group();
-        var fish1 = game.add.sprite(0, 0, 'fish', FishHabitat.getFishSpriteIndex(FISH_TYPE_1));
-        this.orderBarSpriteGroup.add(fish1);
-        var fish2 = game.add.sprite(0, 0, 'fish', FishHabitat.getFishSpriteIndex(FISH_TYPE_2));
-        this.orderBarSpriteGroup.add(fish2);
-        var fish3 = game.add.sprite(0, 0, 'fish', FishHabitat.getFishSpriteIndex(FISH_TYPE_3));
-        this.orderBarSpriteGroup.add(fish3);
-        this.orderBarSpriteGroup.align(1, -1, 16, 16, Phaser.CENTER);
-        this.orderBarSpriteGroup.position.set(this.orderBar.x + 3, this.orderBar.y + 3);
+        this.orderBar.fixedToCamera = true;
+        var fishY = HEIGHT - 56;
+        var fish1 = game.add.sprite(5, fishY, 'fish', FishHabitat.getFishSpriteIndex(FISH_TYPE_1));
+        fish1.fixedToCamera = true;
+        fishY += 15;
+        var fish2 = game.add.sprite(5, fishY, 'fish', FishHabitat.getFishSpriteIndex(FISH_TYPE_2));
+        fish2.fixedToCamera = true;
+        fishY += 15;
+        var fish3 = game.add.sprite(5, fishY, 'fish', FishHabitat.getFishSpriteIndex(FISH_TYPE_3));
+        fish3.fixedToCamera = true;
         var orderBarTextString = this.calculateOrderBarTextString();
         this.orderBarText = makeText(orderBarTextString,
-          this.orderBarSpriteGroup.position.x + 17,
-          this.orderBarSpriteGroup.position.y
+          20,
+          HEIGHT - 58
         );
+        this.orderBarText.fixedToCamera = true;
         this.orderBarText.lineSpacing = -7;
 
         // Bind T to force end the day - testing but also in case you're done fishing
