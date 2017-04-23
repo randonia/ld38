@@ -53,10 +53,10 @@ class ProgressBar {
     this.percentage = 0.5;
   }
   increase() {
-    this.percentage = Math.min(1, this.percentage + 0.01);
+    this.percentage = Math.min(1, this.percentage + 0.009);
   }
   reduce() {
-    this.percentage = Math.max(0, this.percentage - 0.01);
+    this.percentage = Math.max(0, this.percentage - 0.005);
   }
   update() {
     this.bg.position.set(this._x, this._y);
