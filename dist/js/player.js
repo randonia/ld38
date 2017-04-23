@@ -33,6 +33,11 @@ class Player {
     keyAction.onDown.add(this.actionHandler, this);
   }
   deactivate() {
+    this.directions[DIR_UP] = false;
+    this.directions[DIR_DOWN] = false;
+    this.directions[DIR_LEFT] = false;
+    this.directions[DIR_RIGHT] = false;
+    this.sprite.body.velocity.set(0, 0);
     keyAction.reset();
   }
   actionHandler(event) {

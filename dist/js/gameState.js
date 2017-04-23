@@ -284,14 +284,14 @@ class GameState extends BaseState {
         this.orderBar = game.add.sprite(0, HEIGHT - 60, 'order-bar');
         this.orderBar.fixedToCamera = true;
         var fishY = HEIGHT - 56;
-        var fish1 = game.add.sprite(5, fishY, 'fish', FishHabitat.getFishSpriteIndex(FISH_TYPE_1));
-        fish1.fixedToCamera = true;
+        this.fish1 = game.add.sprite(5, fishY, 'fish', FishHabitat.getFishSpriteIndex(FISH_TYPE_1));
+        this.fish1.fixedToCamera = true;
         fishY += 15;
-        var fish2 = game.add.sprite(5, fishY, 'fish', FishHabitat.getFishSpriteIndex(FISH_TYPE_2));
-        fish2.fixedToCamera = true;
+        this.fish2 = game.add.sprite(5, fishY, 'fish', FishHabitat.getFishSpriteIndex(FISH_TYPE_2));
+        this.fish2.fixedToCamera = true;
         fishY += 15;
-        var fish3 = game.add.sprite(5, fishY, 'fish', FishHabitat.getFishSpriteIndex(FISH_TYPE_3));
-        fish3.fixedToCamera = true;
+        this.fish3 = game.add.sprite(5, fishY, 'fish', FishHabitat.getFishSpriteIndex(FISH_TYPE_3));
+        this.fish3.fixedToCamera = true;
         var orderBarTextString = this.calculateOrderBarTextString();
         this.orderBarText = makeText(orderBarTextString,
           20,
@@ -315,8 +315,12 @@ class GameState extends BaseState {
         // Destroy the order bar
         this.orderBar.destroy();
         this.orderBar = null;
-        this.orderBarSpriteGroup.destroy();
-        this.orderBarSpriteGroup = null;
+        this.fish1.destroy();
+        this.fish1 = null;
+        this.fish2.destroy();
+        this.fish2 = null;
+        this.fish3.destroy();
+        this.fish3 = null;
         this.orderBarText.destroy();
         this.orderBarText = null;
         this.skipDayLastSkipPress = undefined;
