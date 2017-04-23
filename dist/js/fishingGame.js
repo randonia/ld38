@@ -7,11 +7,11 @@ class FishingGame {
     this.fishingBar = new FishingBar();
 
     // TODO: CHANGE THIS
-    this.fishingBar.x = WIDTH * 0.5 - 50;
-    this.fishingBar.y = HEIGHT * 0.5 - 50;
-    this.progressBar.x = WIDTH * 0.5 + 25;
+    this.fishingBar.x = WIDTH * 0.5 - 50 + game.camera.position.x;
+    this.fishingBar.y = HEIGHT * 0.5 - 50 + game.camera.position.y;
+    this.progressBar.x = WIDTH * 0.5 + 25 + game.camera.position.x;
     // MAGIC ASS NUMBER FOR SCALING
-    this.progressBar.y = 50;
+    this.progressBar.y = 50 + game.camera.position.y;
   }
   update() {
     this.progressBar.update();
@@ -49,7 +49,7 @@ class ProgressBar {
     this.percentBMPd.ctx.fillStyle = 'white';
     this.percentBMPd.ctx.fillRect(0, 0, 11, 91);
     this.percentSprite = game.add.sprite(3, 94, this.percentBMPd);
-    this.percentSprite.pivot.y = this.percentSprite.height;
+    // this.percentSprite.pivot.y = this.percentSprite.height;
     this.percentage = 0.5;
   }
   increase() {
@@ -60,7 +60,7 @@ class ProgressBar {
   }
   update() {
     this.bg.position.set(this._x, this._y);
-    this.percentSprite.position.set(this._x + 3, this._y + this.bg.height * 0.5 + this.bg.position.y - 4);
+    this.percentSprite.position.set(this._x + 3, this._y + 94 - 91 * this.percentage);
     this.percentSprite.scale.y = this.percentage;
     this.percentSprite.tint = ProgressBar.getTint(this.percentage);
   }
