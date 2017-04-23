@@ -222,6 +222,23 @@ class GameState extends BaseState {
       },
       // Because we reference 'this', we need to use an anonymous function instead of a lambda
       function() {
+        // Skip day function helper
+        this.skipDayFunc = function() {
+          // You must press it twice in under 1/2 a second to skip
+          if (!this.skipDayLastSkipPress) {
+            this.skipDayLastSkipPress = Date.now();
+            return;
+          }
+          var timeSinceLastPress = Date.now() - this.skipDayLastSkipPress;
+          this.skipDayLastSkipPress = Date.now();
+          console.log(timeSinceLastPress);
+          if (timeSinceLastPress < 250) {
+            this.clock.duration = 300;
+            // Make sure we don't duplicate
+            this.skipDayLastSkipPress = undefined;
+            this.skipDayAction.reset();
+          }
+        }
         // This assumes it's in order 1,2,3. Do not change or you'll be in dire straights
         this.calculateOrderBarTextString = function() {
           // Prevent it from being too laggy
@@ -253,6 +270,11 @@ class GameState extends BaseState {
           this.orderBarSpriteGroup.position.y
         );
         this.orderBarText.lineSpacing = -7;
+
+        // Bind T to force end the day - testing but also in case you're done fishing
+        this.skipDayAction = game.input.keyboard.addKey(Phaser.Keyboard.T);
+        this.skipDayAction.onDown.add(this.skipDayFunc, this);
+        this.skipDayLastSkipPress = undefined;
       },
       function() {
         // Kill timer
@@ -267,6 +289,9 @@ class GameState extends BaseState {
         this.orderBarSpriteGroup = null;
         this.orderBarText.destroy();
         this.orderBarText = null;
+        this.skipDayLastSkipPress = undefined;
+        this.skipDayAction.reset();
+        this.skipDayAction = null;
       });
 
     var openStoreConsumeOrders = new FSMState('openstore:consume',
