@@ -14,6 +14,9 @@ class ScoreController {
     }
     return totals;
   }
+  get currentOrders() {
+    return this.orders;
+  }
   get currentInventory() {
     var results = {};
     results[FISH_TYPE_1] = results[FISH_TYPE_2] = results[FISH_TYPE_3] = 0;
@@ -38,6 +41,36 @@ class ScoreController {
     }
     this.inventory.items.push(item);
     return true;
+  }
+  checkInventory(itemId) {
+    var itemInventoryIdx = undefined;
+    var item = undefined;
+    for (var itemIdx = 0; itemIdx < this.inventory.items.length; itemIdx++) {
+      var currItem = this.inventory.items[itemIdx];
+      if (currItem.id === itemId) {
+        itemInventoryIdx = itemIdx;
+        break;
+      }
+    }
+    if (itemInventoryIdx !== undefined) {
+      item = this.inventory.items.splice(itemInventoryIdx, 1);
+    }
+    return item;
+  }
+  checkOrder(order) {
+    var result = true;
+    // Do the order checking here
+    // See if we have the ingredients
+    for (var ingIdx = 0; ingIdx < order.ingredients.length; ingIdx++) {
+      var item = this.checkInventory(order.ingredients[ingIdx]);
+      if (!item) {
+        result = false;
+        break;
+      }
+    }
+    // Remove it from the list
+    this.orders.splice(this.orders.indexOf(order), 1);
+    return result;
   }
   makeOrders() {
     var numToMake = 2 + Math.floor(Math.random() * 4);
@@ -78,7 +111,8 @@ class InventoryItem {
 class Order {
   static generateIngredients() {
     var result = [];
-    var numToRequire = Math.floor(Math.random() * 2.5);
+    // Only require single orders
+    var numToRequire = 1;
     var ingredientPossibilities = [
       FISH_TYPE_1,
       FISH_TYPE_2,

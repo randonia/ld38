@@ -231,7 +231,7 @@ class GameState extends BaseState {
           }
           var timeSinceLastPress = Date.now() - this.skipDayLastSkipPress;
           this.skipDayLastSkipPress = Date.now();
-          console.log(timeSinceLastPress);
+          console.log(sprintf('Day Skip Double Tap: %s', timeSinceLastPress));
           if (timeSinceLastPress < 250) {
             this.clock.duration = 300;
             // Make sure we don't duplicate
@@ -296,17 +296,81 @@ class GameState extends BaseState {
 
     var openStoreConsumeOrders = new FSMState('openstore:consume',
       () => {},
-      () => {
+      function() {
         console.log('Entering store consume');
-      },
-      () => {
-        console.log('Exiting store consume');
-      });
+        var failedOrders = [];
+        var fulfilledOrders = [];
+        // Grab all the current orders
+        var orders = scoreController.currentOrders.slice();
+        // Sort them by fewest ingredients so we don't have to deal with anything annoying
+        orders.sort((l, r) => l.ingredients.length - r.ingredients.length)
+        for (var oIdx = 0; oIdx < orders.length; oIdx++) {
+          var currOrder = orders[oIdx];
+          if (scoreController.checkOrder(currOrder)) {
+            fulfilledOrders.push(currOrder);
+          } else {
+            failedOrders.push(currOrder);
+          }
+        }
+        // Tally up the scores
+        console.log('Tally: success: ', fulfilledOrders);
+        console.log('Tally: failures: ', failedOrders);
 
-    var openStoreGetPaid = new FSMState('openstore:getpaid',
-      () => {},
-      () => {},
-      () => {});
+        // Create order results
+        // This is *super* busy and pretty lame. It should just have raw sprite images instead.
+        // That's for polish step
+        this.header = game.add.sprite(WIDTH * 0.5, 30, 'super-legit-menu', 1);
+        this.header.pivot.set(this.header.width * 0.5, 0);
+        this.headerText = makeText('Order Fulfillment Report', WIDTH * 0.5, this.header.position.y + 10, 14);
+        this.headerText.anchor.x = 0.5;
+        this.menu = game.add.sprite(WIDTH * 0.5, this.header.position.y + 30, 'super-legit-menu');
+        this.menu.pivot.set(this.menu.width * 0.5, 0);
+        var reportText = '';
+        for (var ffOrderIdx = 0; ffOrderIdx < fulfilledOrders.length; ffOrderIdx++) {
+          var order = fulfilledOrders[ffOrderIdx];
+          reportText += sprintf('Fulfilled: %s\'s order\n', order.name);
+        }
+        for (var failOrderIdx = 0; failOrderIdx < failedOrders.length; failOrderIdx++) {
+          var order = failedOrders[failOrderIdx];
+          reportText += sprintf('Failed: %s\'s order\n', order.name);
+        }
+
+        var _this = this;
+        this.menuText = makeText(reportText,
+          10 + this.menu.position.x - this.menu.pivot.x,
+          10 + this.menu.position.y - this.menu.pivot.y);
+        this.button = game.add.button(WIDTH * 0.5, this.menu.y + 128, 'super-legit-button', function() {
+          _this.readyToGo = true;
+        });
+        this.button.pivot.set(this.button.width * 0.5, 0);
+        this.buttonText = makeText('Press F to Start', WIDTH * 0.5, this.button.y + 7);
+        this.buttonText.anchor.x = 0.5;
+
+        // Add a key listener on this for setting readyToGo to true
+        this.keyAccept = game.input.keyboard.addKey(Phaser.Keyboard.F);
+        var _this = this;
+        this.keyAccept.onDown.add(function(event) {
+          _this.readyToGo = true;
+        }, this);
+      },
+      function() {
+        console.log('Exiting store consume');
+        this.header.destroy();
+        this.header = null;
+        this.headerText.destroy();
+        this.headerText = null;
+        this.menu.destroy();
+        this.menu = null;
+        this.menuText.destroy();
+        this.menuText = null;
+        this.button.destroy();
+        this.button = null;
+        this.buttonText.destroy();
+        this.buttonText = null;
+        this.readyToGo = false;
+        this.keyAccept.reset();
+
+      });
 
     dayStartGetOrder.addEdge(dayStartGetSpawnReport, function() {
       return dayStartGetOrder.readyToGo;
@@ -317,8 +381,9 @@ class GameState extends BaseState {
     dayPhaseFishing.addEdge(openStoreConsumeOrders, function() {
       return dayPhaseFishing.completed;
     });
-    openStoreConsumeOrders.addEdge(openStoreGetPaid, () => true);
-    openStoreGetPaid.addEdge(dayStartGetOrder, () => true);
+    openStoreConsumeOrders.addEdge(dayStartGetOrder, function() {
+      return openStoreConsumeOrders.readyToGo;
+    });
 
     return dayStartGetOrder;
   }
