@@ -3,8 +3,11 @@
 ## A Small World ##
 [Play Online!][30]  
 [GitHub][31]  
+[Ludum Dare Page][32]  
 
 Ryan Andonian - [@zambini845][1]
+
+![][24]
 
 ＦＩＳＨＷＯＲＬＤ is a fishing game!
 
@@ -58,3 +61,4 @@ Go fishing to pick up ingredients for customers' orders. Bring the fish back to 
 [24]: https://raw.githubusercontent.com/randonia/ld38/master/screenshots/r05_screenshot.png
 [30]: http://randonia.com/ld38/
 [31]: https://github.com/randonia/ld38/
+[32]: https://ldjam.com/events/ludum-dare/38/$18610
