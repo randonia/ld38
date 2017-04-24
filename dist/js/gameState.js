@@ -387,6 +387,8 @@ class GameState extends BaseState {
         // Tally up the scores
         console.log('Tally: success: ', fulfilledOrders);
         console.log('Tally: failures: ', failedOrders);
+        scoreController.score += fulfilledOrders.length;
+        scoreController.totalFailures += failedOrders.length;
 
         // Create order results
         // This is *super* busy and pretty lame. It should just have raw sprite images instead.
@@ -457,8 +459,11 @@ class GameState extends BaseState {
         this.completed = false;
         var _this = this;
         globalFadeScreen(1, function() {
-          console.log('fade completed');
-          _this.completed = true;
+          if (scoreController.tooManyFailures) {
+            _this.failure = true;
+          } else {
+            _this.completed = true;
+          }
         });
       },
       function() {
@@ -466,6 +471,55 @@ class GameState extends BaseState {
         this.completed = false;
       }
     );
+
+    var failureEndDay = new FSMState('failure:endday',
+      () => {},
+      () => {
+        console.log('Start failure:endday');
+        /*******************/
+
+        // Add a key listener on this for setting readyToGo to true
+        this.keyAccept = game.input.keyboard.addKey(Phaser.Keyboard.F);
+        var _this = this;
+        this.keyAccept.onDown.add(function(event) {
+          // RELOAD THE GAME
+          game.state.start('game');
+        }, this);
+
+        // Create endgame window
+        // That's for polish step
+        this.header = game.add.sprite(WIDTH * 0.5, 30, 'super-legit-menu', 1);
+        this.header.pivot.set(this.header.width * 0.5, 0);
+        this.headerText = makeText('End Game Report', WIDTH * 0.5, this.header.position.y + 10, 14);
+        this.headerText.anchor.x = 0.5;
+        this.menu = game.add.sprite(WIDTH * 0.5, this.header.position.y + 30, 'super-legit-menu');
+        this.menu.pivot.set(this.menu.width * 0.5, 0);
+        var reportText = sprintf('Too many orders went unfulfilled\nand your restaurant had to close.\n\nYou completed %d orders', scoreController.score);
+
+        this.menuText = makeText(reportText,
+          10 + this.menu.position.x - this.menu.pivot.x,
+          10 + this.menu.position.y - this.menu.pivot.y);
+        this.button = game.add.button(WIDTH * 0.5, this.menu.y + 150, 'super-legit-button', function() {
+          game.state.start('game');
+        });
+        this.button.pivot.set(this.button.width * 0.5, 0);
+        this.buttonText = makeText('Press F to Replay', WIDTH * 0.5, this.button.y + 7, 14);
+        this.buttonText.anchor.x = 0.5;
+        this.header.fixedToCamera = true;
+        this.headerText.fixedToCamera = true;
+        this.menu.fixedToCamera = true;
+        this.menuText.fixedToCamera = true;
+        this.button.fixedToCamera = true;
+        this.buttonText.fixedToCamera = true;
+        fadeScreen(0.9);
+
+        /*******************/
+      },
+      () => {
+        console.log('End failure:endday');
+      }
+    );
+
     dayStartGetOrder.addEdge(dayStartGetSpawnReport, function() {
       return dayStartGetOrder.readyToGo;
     });
@@ -481,6 +535,10 @@ class GameState extends BaseState {
     closeStoreEndDay.addEdge(dayStartGetOrder, function() {
       return closeStoreEndDay.completed;
     });
+    closeStoreEndDay.addEdge(failureEndDay, function() {
+      return closeStoreEndDay.failure;
+    });
+
 
     return dayStartGetOrder;
   }

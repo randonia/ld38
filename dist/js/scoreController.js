@@ -26,7 +26,11 @@ class ScoreController {
     }
     return results;
   }
+  get tooManyFailures() {
+    return this.totalFailures >= 5;
+  }
   constructor() {
+    this.totalFailures = 0;
     this.score = 0;
     this.inventory = {
       items: [],
