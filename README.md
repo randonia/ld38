@@ -1,6 +1,7 @@
 [![Stories in Ready](https://badge.waffle.io/randonia/ld38.png?label=ready&title=Ready)](https://waffle.io/randonia/ld38) [![Stories in Ready](https://badge.waffle.io/randonia/ld38.png?label=in%20progress&title=In%20Progress)](https://waffle.io/randonia/ld38)
 # ＦＩＳＨＷＯＲＬＤ #
 ## A Small World ##
+[Play Online!][30]
 
 Ryan Andonian - [@zambini845][1]
 
@@ -31,3 +32,8 @@ You left your home colony and purchased your own tiny planet so you could do wha
 [10]: https://github.com/alexei/sprintf.js
 [11]: https://phaser.io
 [12]: http://boscaceoil.net/
+[20]: https://raw.githubusercontent.com/randonia/ld38/master/screenshots/r01_orders.png
+[21]: https://raw.githubusercontent.com/randonia/ld38/master/screenshots/r02_spawnreport.png
+[22]: https://raw.githubusercontent.com/randonia/ld38/master/screenshots/r03_fishing.png
+[23]: https://raw.githubusercontent.com/randonia/ld38/master/screenshots/r04_ui.png
+[30]: http://randonia.com/ld38/
