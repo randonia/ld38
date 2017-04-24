@@ -72,6 +72,7 @@ class Player {
         var fishType = habitat.canFish();
         if (fishType) {
           this.fishingGameType = fishType;
+          this.habitat = habitat;
           this.fishingGame = new FishingGame();
           this.deactivate();
           fadeScreen(0.9);
@@ -86,11 +87,17 @@ class Player {
       this.fishingGame.update();
       if (this.fishingGame.complete) {
         this.activate();
+        var success = this.fishingGame.success;
+        if (success) {
+          this.backpack.addFish(this.habitat.fish(this.fishingGameType));
+        } else {
+          // Cause something bad to happen
+        }
         // Clean up
         this.fishingGame.destroy();
         this.fishingGame = null;
-        this.backpack.addFish(this.fishingGameType);
         this.fishingGameType = null;
+
         fadeScreen(0);
       }
     } else {

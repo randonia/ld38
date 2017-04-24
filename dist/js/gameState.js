@@ -11,6 +11,7 @@ var cursors;
 var map;
 var layer;
 var fadeSprite;
+var globalFadeSprite;
 var bgm;
 // Habitat/Tile variables
 var habitats;
@@ -32,6 +33,16 @@ function fadeScreen(toAlpha, duration = 500) {
   game.add.tween(fadeSprite).to({
     alpha: toAlpha
   }, duration, 'Linear', true);
+}
+
+function globalFadeScreen(toAlpha, onCompleteFunc = undefined, duration = 500) {
+  globalFadeSprite.bringToTop();
+  var tween = game.add.tween(globalFadeSprite).to({
+    alpha: toAlpha
+  }, duration, 'Linear', true);
+  if (onCompleteFunc) {
+    tween.onComplete.add(onCompleteFunc, this);
+  }
 }
 class GameState extends BaseState {
   preload() {
@@ -88,6 +99,9 @@ class GameState extends BaseState {
     fadeSprite = game.add.sprite(0, 0, this.fadeBMPd);
     fadeSprite.alpha = 0.9;
     fadeSprite.fixedToCamera = true;
+    globalFadeSprite = game.add.sprite(0, 0, this.fadeBMPd);
+    globalFadeSprite.alpha = 0;
+    globalFadeSprite.fixedToCamera = true;
     // Make a rain emitter for flavortown
     var rainEmitter = game.add.emitter(game.world.centerX, 0, 4000);
     rainEmitter.width = game.world.width;
@@ -134,25 +148,31 @@ class GameState extends BaseState {
         }
         var totals = scoreController.currentTotals;
         var needsString = '';
-        for(var fishKey in totals) {
+        for (var fishKey in totals) {
           needsString += sprintf('%s - %d ', fishKey, totals[fishKey]);
         }
         ordersText += sprintf('Total fish needed for today:\n%s', needsString);
         this.header = game.add.sprite(WIDTH * 0.5, 30, 'super-legit-menu', 1);
+        this.header.fixedToCamera = true;
         this.header.pivot.set(this.header.width * 0.5, 0);
         this.headerText = makeText('Today\'s Orders', 158, this.header.position.y + 10, 14);
+        this.headerText.fixedToCamera = true;
         this.menu = game.add.sprite(WIDTH * 0.5, this.header.position.y + 30, 'super-legit-menu');
+        this.menu.fixedToCamera = true;
         this.menu.pivot.set(this.menu.width * 0.5, 0);
         this.button = game.add.button(WIDTH * 0.5, this.menu.y + 150, 'super-legit-button', function() {
           _this.readyToGo = true;
         });
+        this.button.fixedToCamera = true;
         this.menuText = makeText(ordersText,
           10 + this.menu.position.x - this.menu.pivot.x,
           10 + this.menu.position.y - this.menu.pivot.y
         );
+        this.menuText.fixedToCamera = true;
 
         this.button.pivot.set(this.button.width * 0.5, 0);
         this.buttonText = makeText('Press F to Continue', WIDTH * 0.5, this.button.y + 7, 14);
+        this.buttonText.fixedToCamera = true;
         this.buttonText.anchor.x = 0.5;
         fadeScreen(0.9);
       },
@@ -221,7 +241,12 @@ class GameState extends BaseState {
         this.button.pivot.set(this.button.width * 0.5, 0);
         this.buttonText = makeText('Press F to Start', WIDTH * 0.5, this.button.y + 7);
         this.buttonText.anchor.x = 0.5;
-
+        this.header.fixedToCamera = true;
+        this.headerText.fixedToCamera = true;
+        this.menu.fixedToCamera = true;
+        this.menuText.fixedToCamera = true;
+        this.button.fixedToCamera = true;
+        this.buttonText.fixedToCamera = true;
         fadeScreen(0.9);
       },
       function() {
@@ -258,6 +283,8 @@ class GameState extends BaseState {
       },
       // Because we reference 'this', we need to use an anonymous function instead of a lambda
       function() {
+        // Move the player
+        player.sprite.position.set(32, 64);
         // Skip day function helper
         this.skipDayFunc = function() {
           // You must press it twice in under 1/2 a second to skip
@@ -388,7 +415,7 @@ class GameState extends BaseState {
           _this.readyToGo = true;
         });
         this.button.pivot.set(this.button.width * 0.5, 0);
-        this.buttonText = makeText('Press F to Start', WIDTH * 0.5, this.button.y + 7);
+        this.buttonText = makeText('Press F to Rest', WIDTH * 0.5, this.button.y + 7, 14);
         this.buttonText.anchor.x = 0.5;
 
         // Add a key listener on this for setting readyToGo to true
@@ -397,6 +424,12 @@ class GameState extends BaseState {
         this.keyAccept.onDown.add(function(event) {
           _this.readyToGo = true;
         }, this);
+        this.header.fixedToCamera = true;
+        this.headerText.fixedToCamera = true;
+        this.menu.fixedToCamera = true;
+        this.menuText.fixedToCamera = true;
+        this.button.fixedToCamera = true;
+        this.buttonText.fixedToCamera = true;
         fadeScreen(0.9);
       },
       function() {
@@ -418,6 +451,21 @@ class GameState extends BaseState {
 
       });
 
+    var closeStoreEndDay = new FSMState('closestore:endday',
+      () => {},
+      function() {
+        this.completed = false;
+        var _this = this;
+        globalFadeScreen(1, function() {
+          console.log('fade completed');
+          _this.completed = true;
+        });
+      },
+      function() {
+        globalFadeScreen(0);
+        this.completed = false;
+      }
+    );
     dayStartGetOrder.addEdge(dayStartGetSpawnReport, function() {
       return dayStartGetOrder.readyToGo;
     });
@@ -427,8 +475,11 @@ class GameState extends BaseState {
     dayPhaseFishing.addEdge(openStoreConsumeOrders, function() {
       return dayPhaseFishing.completed;
     });
-    openStoreConsumeOrders.addEdge(dayStartGetOrder, function() {
+    openStoreConsumeOrders.addEdge(closeStoreEndDay, function() {
       return openStoreConsumeOrders.readyToGo;
+    });
+    closeStoreEndDay.addEdge(dayStartGetOrder, function() {
+      return closeStoreEndDay.completed;
     });
 
     return dayStartGetOrder;

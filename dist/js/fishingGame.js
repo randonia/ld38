@@ -2,6 +2,9 @@ class FishingGame {
   get complete() {
     return this.progressBar.complete;
   }
+  get success() {
+    return this.progressBar.success;
+  }
   constructor() {
     this.progressBar = new ProgressBar();
     this.fishingBar = new FishingBar();
@@ -37,6 +40,9 @@ class ProgressBar {
     this._y = value;
   }
   get complete() {
+    return this.percentage >= 1 || this.percentage <= 0;
+  }
+  get success() {
     return this.percentage >= 1;
   }
   static getTint(percentage) {

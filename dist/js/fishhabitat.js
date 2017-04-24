@@ -89,10 +89,11 @@ class FishHabitat {
     return null;
   }
   fish(fishType) {
-    if (this.fishData[fishType].fish()) {
-      return randFish;
+    var randFish = this.fishData[fishType].fish();
+    if (randFish) {
+      return fishType;
     }
-    return null;
+    throw Error('This should never happen');
   }
 }
 
@@ -128,7 +129,7 @@ class FishData {
       spawnDelta.deltaFish = fishData.startingQuantity; // * this.habitat.tiles.length;
     } else {
       // Growth time
-      if (Math.random() > fishData.chanceNoSpawn) {
+      if (Math.random() > fishData.chanceNoSpawn && this.count > 0) {
         spawnDelta.deltaFish = fishData.spawnPerDay + (fishData.perTileBonus + this.habitat.tiles.length);
       }
     }
