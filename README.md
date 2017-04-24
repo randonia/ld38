@@ -12,6 +12,7 @@ Ryan Andonian - [@zambini845][1]
 You left your home colony and purchased your own tiny planet so you could do what you've always wanted to do: Start a sushi restaurant. You accept only a few customers per day and go out and catch the fish yourself. You will have to make sure you don't over-fish your tiny little planet, otherwise you'll not be able to fulfill orders.
 
 ### Gameplay ###
+
 #### Controls ####
 * **Arrow Keys** - Movement
 * **F** - Interact
@@ -21,6 +22,24 @@ You left your home colony and purchased your own tiny planet so you could do wha
 * **E** - Reel in Fish
   * When you're fishing, use E to move your fishing gauge up and release to let it fall down. Keep the fish inside the gauge to catch it! Don't let it stay outside the gauge tooo long
 
+#### Take Orders ####
+Take customers' orders
+
+![][20]
+
+#### See where to fish ####
+Habitats **can permanently run out** of fish. Use the spawning report to keep tabs on the habitats and make sure you don't over fish
+
+![][21]
+
+#### Fish! ####
+Go fishing to pick up ingredients for customers' orders. Bring the fish back to your restaurant to drop them off for prep
+
+![][22]
+
+
+#### UI ####
+![][23]
 
 ## Third Party ##
 * [alexei/sprintf.js][10]
