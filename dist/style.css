@@ -21,9 +21,32 @@ h1 {
   text-shadow: 1px 1px 2px black;
 }
 
+.link {
+  color: white;
+}
+
+.link:hover {
+  color: white;
+}
+
+.link:visited {
+  color: white;
+}
+
 .game-container {
   height: 250px;
   width: 400px;
   margin: 0px auto;
   outline: 1px solid #0095ff;
+}
+
+.game-details {
+  height: 400px;
+  width: 400px;
+  margin: 0px auto;
+  color: #0095ff;
+}
+
+.footer {
+  text-align: center;
 }
