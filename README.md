@@ -1,8 +1,8 @@
 [![Stories in Ready](https://badge.waffle.io/randonia/ld38.png?label=ready&title=Ready)](https://waffle.io/randonia/ld38) [![Stories in Ready](https://badge.waffle.io/randonia/ld38.png?label=in%20progress&title=In%20Progress)](https://waffle.io/randonia/ld38)
 # ＦＩＳＨＷＯＲＬＤ #
 ## A Small World ##
-[Play Online!][30]
-[GitHub][31]
+[Play Online!][30]  
+[GitHub][31]  
 
 Ryan Andonian - [@zambini845][1]
 
@@ -37,7 +37,6 @@ Go fishing to pick up ingredients for customers' orders. Bring the fish back to 
 
 ![][22]
 
-
 #### UI ####
 ![][23]
 
@@ -56,5 +55,6 @@ Go fishing to pick up ingredients for customers' orders. Bring the fish back to 
 [21]: https://raw.githubusercontent.com/randonia/ld38/master/screenshots/r02_spawnreport.png
 [22]: https://raw.githubusercontent.com/randonia/ld38/master/screenshots/r03_fishing.png
 [23]: https://raw.githubusercontent.com/randonia/ld38/master/screenshots/r04_ui.png
+[24]: https://raw.githubusercontent.com/randonia/ld38/master/screenshots/r05_screenshot.png
 [30]: http://randonia.com/ld38/
 [31]: https://github.com/randonia/ld38/
